@@ -66,39 +66,39 @@
      theme-support 支援技術学コース         … 青緑
      theme-gray    全学部・全領域・横断      … グレー（既定）
    ------------------------------------------------------------- */
-.theme-info {     /* 情報科学コース（パンフレット 青 #019aca 由来） */
-  --course-tint:  #d7edf4;
-  --course-soft:  #f0f7fa;
-  --course-deep:  #017ca2;   /* 白文字 4.8:1 */
-  --course-deep2: #017093;   /* 見出し（淡背景上 4.6:1〜） */
+.theme-info {     /* 情報科学コース・青（統一トーン） */
+  --course-tint:  #c6eaf6;
+  --course-soft:  #ebf6fa;
+  --course-deep:  #0d7fa2;   /* 白文字 4.6:1 */
+  --course-deep2: #0b6d8c;   /* 見出し（淡背景上 4.6:1〜） */
 }
 
-.theme-mech {     /* 先端機械工学コース（パンフレット 緑 #75b266 由来） */
-  --course-tint:  #e0eedd;
-  --course-soft:  #f2faf0;
-  --course-deep:  #45733a;   /* 白文字 5.6:1 */
-  --course-deep2: #416d37;   /* 見出し（淡背景上 5.0:1〜） */
+.theme-mech {     /* 先端機械工学コース・緑（統一トーン） */
+  --course-tint:  #cff6c6;
+  --course-soft:  #eefaeb;
+  --course-deep:  #23860b;   /* 白文字 4.7:1 */
+  --course-deep2: #20790a;   /* 見出し（淡背景上 4.6:1〜） */
 }
 
-.theme-arch {     /* 建築学コース（赤・はっきりめ／橙と区別） */
-  --course-tint:  #f3cdd1;
-  --course-soft:  #faf0f1;
-  --course-deep:  #e42135;   /* 鮮やかな赤・白文字 4.6:1 */
-  --course-deep2: #b61626;   /* 見出し（淡背景上 4.6:1〜） */
+.theme-arch {     /* 建築学コース・赤（統一トーン） */
+  --course-tint:  #f6c6c9;
+  --course-soft:  #faebeb;
+  --course-deep:  #e8131e;   /* 白文字 4.6:1 */
+  --course-deep2: #b30f17;   /* 見出し（淡背景上 4.6:1〜） */
 }
 
-.theme-design {   /* クリエイティブデザイン学コース（橙・鮮やか／赤と区別） */
-  --course-tint:  #fadbbd;
-  --course-soft:  #fbf2e9;
-  --course-deep:  #b55d05;   /* 明るいオレンジ・白文字 4.6:1 */
-  --course-deep2: #975008;   /* 見出し（淡背景上 4.6:1〜） */
+.theme-design {   /* クリエイティブデザイン学コース・橙（統一トーン） */
+  --course-tint:  #f6d9c6;
+  --course-soft:  #faf1eb;
+  --course-deep:  #bf560f;   /* 白文字 4.6:1 */
+  --course-deep2: #9f470d;   /* 見出し（淡背景上 4.6:1〜） */
 }
 
-.theme-support {  /* 支援技術学コース（パンフレット 青緑 #02abad 由来） */
-  --course-tint:  #d7f3f4;
-  --course-soft:  #f0fafa;
-  --course-deep:  #028283;   /* 白文字 4.6:1 */
-  --course-deep2: #017374;   /* 見出し（淡背景上 4.9:1〜） */
+.theme-support {  /* 支援技術学コース・青緑（統一トーン） */
+  --course-tint:  #c6f5f6;
+  --course-soft:  #ebfafa;
+  --course-deep:  #0b8182;   /* 白文字 4.7:1 */
+  --course-deep2: #0a7677;   /* 見出し（淡背景上 4.6:1〜） */
 }
 
 .theme-gray {     /* 全学部・全領域・横断（グレー・既定と同じ） */
