@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>事例ページ かんたん編集ツール｜産学連携プロジェクト</title>
+<style>
+  :root{
+    --ink:#2b2b2b; --soft:#5d5d5d; --line:#e3e3e8;
+    --blue:#006d96; --green:#00773a; --amber:#8a6500; --rose:#b04d6a;
+    --font:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:var(--font);color:var(--ink);background:#f4f4f6;line-height:1.7;}
+  .topbar{
+    position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--line);
+    padding:12px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  }
+  .topbar .tri{height:6px;width:54px;border-radius:3px;
+    background:linear-gradient(to right,var(--blue) 0 33%,var(--green) 33% 66%,var(--amber) 66% 100%);}
+  .topbar h1{font-size:17px;margin:0;letter-spacing:.03em;}
+  .topbar .file{color:var(--soft);font-size:13px;}
+  .spacer{flex:1;}
+  button{
+    font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer;
+    border:0;border-radius:8px;padding:9px 18px;
+  }
+  .btn-open{background:#eef3f5;color:var(--blue);border:1px solid #cfe0e7;}
+  .btn-save{background:var(--green);color:#fff;}
+  .btn-save:disabled{background:#bdbdbd;cursor:not-allowed;}
+  button:focus-visible{outline:3px solid var(--amber);outline-offset:2px;}
+
+  .intro{max-width:1180px;margin:0 auto;padding:22px 20px 0;}
+  .intro h2{font-size:16px;margin:0 0 6px;}
+  .intro ol{margin:0 0 8px;padding-left:1.3em;color:var(--soft);font-size:14px;}
+  .intro .note{font-size:12.5px;color:var(--soft);background:#fffdf3;border:1px solid #f0e6c6;
+    border-radius:8px;padding:8px 12px;display:inline-block;}
+
+  .layout{max-width:1180px;margin:0 auto;padding:18px 20px 60px;display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;}
+  @media(max-width:900px){.layout{grid-template-columns:1fr;}}
+  .pane{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;}
+  .pane>.head{padding:10px 16px;border-bottom:1px solid var(--line);font-weight:800;font-size:14px;
+    display:flex;align-items:center;gap:8px;}
+  .pane>.head .dot{width:10px;height:10px;border-radius:50%;}
+  .form-body{padding:6px 16px 16px;max-height:74vh;overflow:auto;}
+  .field{padding:12px 0;border-bottom:1px solid #f0f0f2;}
+  .field:last-child{border-bottom:0;}
+  .field label{display:block;font-weight:700;font-size:13px;color:var(--blue);margin-bottom:5px;}
+  .field textarea{
+    width:100%;font-family:var(--font);font-size:14px;line-height:1.7;color:var(--ink);
+    border:1px solid #d6d6dc;border-radius:8px;padding:9px 11px;resize:vertical;
+  }
+  .field textarea:focus-visible{outline:3px solid var(--amber);outline-offset:1px;border-color:var(--amber);}
+  iframe{width:100%;height:74vh;border:0;display:block;background:#fff;}
+
+  .empty{padding:60px 24px;text-align:center;color:var(--soft);}
+  .empty .big{font-size:40px;margin-bottom:10px;}
+  .status{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);
+    background:#222;color:#fff;padding:10px 20px;border-radius:999px;font-size:14px;font-weight:700;
+    opacity:0;transition:opacity .25s;pointer-events:none;z-index:9;}
+  .status.show{opacity:1;}
+  .hide{display:none !important;}
+</style>
+</head>
+<body>
+
+  <header class="topbar">
+    <span class="tri" aria-hidden="true"></span>
+    <h1>事例ページ かんたん編集ツール</h1>
+    <span class="file" id="fileLabel"></span>
+    <span class="spacer"></span>
+    <button class="btn-open" id="openBtn" type="button">事例ファイルを開く…</button>
+    <button class="btn-save" id="saveBtn" type="button" disabled>保存する</button>
+    <input type="file" id="fileInput" accept=".html,.htm" class="hide">
+  </header>
+
+  <main>
+  <div class="intro">
+    <h2>使い方</h2>
+    <ol>
+      <li>「事例ファイルを開く…」で、編集したい <code>case-◯◯.html</code>（または <code>jma.html</code>）を選びます。</li>
+      <li>左側の入力欄で文章を直すと、右側にすぐ反映されます。HTMLの知識は不要です。</li>
+      <li>「保存する」を押します。<b id="saveModeText">（お使いのブラウザでは元のファイルに上書きされます）</b></li>
+    </ol>
+    <span class="note" id="browserNote">※ 文章の編集だけができます。写真の差し替えやレイアウト変更はできません（必要な時はご相談ください）。</span>
+  </div>
+
+  <div class="layout">
+    <section class="pane" aria-label="編集フォーム">
+      <div class="head"><span class="dot" style="background:var(--blue)"></span>文章を編集</div>
+      <div class="form-body" id="formBody">
+        <div class="empty" id="emptyForm">
+          <div class="big" aria-hidden="true">📝</div>
+          上の「事例ファイルを開く…」から<br>編集したいページを選んでください。
+        </div>
+        <form id="form"></form>
+      </div>
+    </section>
+
+    <section class="pane" aria-label="プレビュー">
+      <div class="head"><span class="dot" style="background:var(--green)"></span>プレビュー（実際の表示）</div>
+      <iframe id="preview" title="編集中ページのプレビュー"></iframe>
+    </section>
+  </div>
+  </main>
+
+  <div class="status" id="status" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  "use strict";
+  const supportsFS = !!window.showOpenFilePicker;
+  let fileHandle = null, fileName = "", doc = null, groups = [];
+
+  const $ = id => document.getElementById(id);
+
+  // ブラウザ対応に応じた案内
+  if(!supportsFS){
+    $("saveModeText").textContent = "（お使いのブラウザでは編集後のファイルがダウンロードされます。元の場所に上書き保存してください）";
+  }
+
+  function showStatus(msg){
+    const s=$("status"); s.textContent=msg; s.classList.add("show");
+    clearTimeout(showStatus._t); showStatus._t=setTimeout(()=>s.classList.remove("show"),3200);
+  }
+
+  // ---- ファイルを開く ----
+  $("openBtn").addEventListener("click", async ()=>{
+    if(supportsFS){
+      try{
+        const [h] = await window.showOpenFilePicker({
+          types:[{description:"事例ページ (HTML)",accept:{"text/html":[".html",".htm"]}}]
+        });
+        fileHandle = h;
+        const f = await h.getFile();
+        fileName = f.name;
+        loadText(await f.text());
+      }catch(e){ if(e && e.name!=="AbortError") console.error(e); }
+    }else{
+      $("fileInput").click();
+    }
+  });
+  $("fileInput").addEventListener("change", e=>{
+    const f = e.target.files[0]; if(!f) return;
+    fileHandle = null; fileName = f.name;
+    const r = new FileReader();
+    r.onload = ()=> loadText(r.result);
+    r.readAsText(f, "utf-8");
+  });
+
+  // ---- 読み込み・フォーム生成 ----
+  function loadText(text){
+    doc = new DOMParser().parseFromString(text, "text/html");
+    const els = Array.from(doc.querySelectorAll("[data-edit]"));
+    if(!els.length){
+      showStatus("このファイルには編集できる項目が見つかりませんでした。");
+      return;
+    }
+    const map = new Map();
+    for(const el of els){
+      const key = el.getAttribute("data-edit");
+      if(!map.has(key)) map.set(key,{key,label:el.getAttribute("data-label")||key,els:[]});
+      map.get(key).els.push(el);
+    }
+    groups = Array.from(map.values());
+    for(const g of groups) g.value = g.els[0].textContent.replace(/\s+/g," ").trim();
+
+    $("fileLabel").textContent = "編集中： " + fileName;
+    $("emptyForm").classList.add("hide");
+    $("saveBtn").disabled = false;
+    renderForm();
+    updatePreview();
+  }
+
+  function renderForm(){
+    const form = $("form"); form.innerHTML = "";
+    groups.forEach((g,i)=>{
+      const wrap = document.createElement("div"); wrap.className="field";
+      const lab = document.createElement("label"); lab.textContent=g.label; lab.setAttribute("for","f"+i);
+      const ta = document.createElement("textarea"); ta.id="f"+i; ta.value=g.value;
+      ta.rows = Math.min(7, Math.max(2, Math.ceil((g.value.length+1)/34)));
+      ta.addEventListener("input", ()=>{ g.value=ta.value; applyGroup(g); updatePreview(); });
+      wrap.append(lab, ta); form.append(wrap);
+    });
+  }
+
+  function applyGroup(g){
+    for(const el of g.els) el.textContent = g.value;
+    if(g.key.indexOf("caption")===0){          // キャプションは画像のaltも同期
+      for(const el of g.els){
+        const fig = el.closest("figure");
+        const img = fig && fig.querySelector("img");
+        if(img) img.setAttribute("alt", g.value);
+      }
+    }
+  }
+
+  function serialize(){
+    return "<!DOCTYPE html>\n" + doc.documentElement.outerHTML;
+  }
+  function updatePreview(){
+    $("preview").srcdoc = serialize();
+  }
+
+  // ---- 保存 ----
+  $("saveBtn").addEventListener("click", async ()=>{
+    if(!doc) return;
+    groups.forEach(applyGroup);
+    const html = serialize();
+    if(fileHandle && fileHandle.createWritable){
+      try{
+        const w = await fileHandle.createWritable();
+        await w.write(html); await w.close();
+        showStatus("保存しました（元のファイルを上書きしました）");
+      }catch(e){ console.error(e); showStatus("保存できませんでした。権限をご確認ください。"); }
+    }else{
+      const blob = new Blob([html], {type:"text/html;charset=utf-8"});
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob); a.download = fileName || "case.html";
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+      showStatus("ダウンロードしました。元の場所に上書き保存してください。");
+    }
+  });
+})();
+</script>
+</body>
+</html>
