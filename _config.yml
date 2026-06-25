@@ -8,7 +8,4 @@
 exclude:
   - editor.html        # 教員向け 編集ツール（ローカル専用）
   - style-guide.html   # デザインシステムの内部資料
-  - compare.html       # 配色テーマの見比べ（内部）
-  - jma-orange.html    # テーマ見本（内部）
-  - jma-gray.html      # テーマ見本（内部）
   - README.md
