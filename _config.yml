@@ -9,3 +9,4 @@ exclude:
   - editor.html        # 教員向け 編集ツール（ローカル専用）
   - style-guide.html   # デザインシステムの内部資料
   - README.md
+  - functions          # Cloudflare Pages 用の認証関数（GitHub Pagesでは配信しない）

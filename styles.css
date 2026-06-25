@@ -254,11 +254,11 @@ a { color: var(--course-deep2); text-underline-offset: 2px; }
   line-height: 1.6;
 }
 
-/* 活動写真ギャラリー（複数写真をタイル表示） */
+/* 活動写真ギャラリー（大きめの2カラム） */
 .gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
   margin: 0;
 }
 
@@ -266,13 +266,16 @@ a { color: var(--course-deep2); text-underline-offset: 2px; }
 
 .gallery img {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 3 / 2;
   object-fit: cover;
   border-radius: var(--radius);
   display: block;
   box-shadow: var(--shadow);
   background: var(--course-soft);
 }
+
+/* 写真が1枚だけのギャラリーは横幅いっぱいに大きく */
+.gallery:has(figure:only-child) { grid-template-columns: 1fr; }
 
 .gallery figcaption {
   font-size: 12px;
