@@ -80,18 +80,18 @@
   --course-deep2: #416d37;   /* 見出し（淡背景上 5.0:1〜） */
 }
 
-.theme-arch {     /* 建築学コース（パンフレット 赤 #cb5b61 由来） */
-  --course-tint:  #f3d8da;
-  --course-soft:  #faf0f0;
-  --course-deep:  #842a2f;   /* 白文字 8.9:1 */
-  --course-deep2: #7c272c;   /* 見出し（淡背景上 7.2:1〜） */
+.theme-arch {     /* 建築学コース（赤・はっきりめ／橙と区別） */
+  --course-tint:  #f3cdd1;
+  --course-soft:  #faf0f1;
+  --course-deep:  #e42135;   /* 鮮やかな赤・白文字 4.6:1 */
+  --course-deep2: #b61626;   /* 見出し（淡背景上 4.6:1〜） */
 }
 
-.theme-design {   /* クリエイティブデザイン学コース（パンフレット 橙 #f47b2a 由来） */
-  --course-tint:  #f4e3d7;
-  --course-soft:  #faf4f0;
-  --course-deep:  #a54709;   /* 白文字 6.0:1 */
-  --course-deep2: #9b4308;   /* 見出し（淡背景上 5.3:1〜） */
+.theme-design {   /* クリエイティブデザイン学コース（橙・鮮やか／赤と区別） */
+  --course-tint:  #fadbbd;
+  --course-soft:  #fbf2e9;
+  --course-deep:  #b55d05;   /* 明るいオレンジ・白文字 4.6:1 */
+  --course-deep2: #975008;   /* 見出し（淡背景上 4.6:1〜） */
 }
 
 .theme-support {  /* 支援技術学コース（パンフレット 青緑 #02abad 由来） */
