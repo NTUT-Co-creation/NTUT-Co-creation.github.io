@@ -185,8 +185,19 @@
     });
   }
 
-  // data-ml 付き要素は改行を <br> として扱う（見出しの折り返しを保持）
+  function escHtml(t){ return t.replace(/[&<>]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c])); }
+
+  // 要素の中身を編集欄用テキストに変換
+  //  data-rich="emph" … <b>強調</b> を [強調] で表す
+  //  data-ml         … 改行 <br> を実際の改行で表す
   function readVal(el){
+    if(el.getAttribute("data-rich")==="emph"){
+      return el.innerHTML
+        .replace(/<b[^>]*>(.*?)<\/b>/gi, "[$1]")
+        .replace(/<[^>]+>/g, "")
+        .replace(/&nbsp;/g," ").replace(/&amp;/g,"&").replace(/&lt;/g,"<").replace(/&gt;/g,">")
+        .replace(/\s+/g," ").trim();
+    }
     if(el.hasAttribute("data-ml")){
       return el.innerHTML
         .replace(/<br\s*\/?>/gi, "\n")
@@ -196,8 +207,13 @@
     return el.textContent.replace(/\s+/g," ").trim();
   }
   function setVal(el, v){
-    if(el.hasAttribute("data-ml")){
-      el.innerHTML = v.replace(/[&<>]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c])).replace(/\n/g,"<br>");
+    if(el.getAttribute("data-rich")==="emph"){
+      let n=0;
+      el.innerHTML = escHtml(v).replace(/\[(.+?)\]/g, (m,w)=>{
+        n++; return '<b class="c'+(((n-1)%3)+1)+'">'+w+'</b>';
+      });
+    } else if(el.hasAttribute("data-ml")){
+      el.innerHTML = escHtml(v).replace(/\n/g,"<br>");
     } else {
       el.textContent = v;
     }
