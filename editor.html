@@ -164,7 +164,7 @@
       map.get(key).els.push(el);
     }
     groups = Array.from(map.values());
-    for(const g of groups) g.value = g.els[0].textContent.replace(/\s+/g," ").trim();
+    for(const g of groups) g.value = readVal(g.els[0]);
 
     $("fileLabel").textContent = "編集中： " + fileName;
     $("emptyForm").classList.add("hide");
@@ -185,8 +185,26 @@
     });
   }
 
+  // data-ml 付き要素は改行を <br> として扱う（見出しの折り返しを保持）
+  function readVal(el){
+    if(el.hasAttribute("data-ml")){
+      return el.innerHTML
+        .replace(/<br\s*\/?>/gi, "\n")
+        .replace(/&nbsp;/g," ").replace(/&amp;/g,"&").replace(/&lt;/g,"<").replace(/&gt;/g,">")
+        .replace(/[ \t]+\n/g,"\n").trim();
+    }
+    return el.textContent.replace(/\s+/g," ").trim();
+  }
+  function setVal(el, v){
+    if(el.hasAttribute("data-ml")){
+      el.innerHTML = v.replace(/[&<>]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c])).replace(/\n/g,"<br>");
+    } else {
+      el.textContent = v;
+    }
+  }
+
   function applyGroup(g){
-    for(const el of g.els) el.textContent = g.value;
+    for(const el of g.els) setVal(el, g.value);
     if(g.key.indexOf("caption")===0){          // キャプションは画像のaltも同期
       for(const el of g.els){
         const fig = el.closest("figure");
