@@ -197,11 +197,22 @@ a { color: var(--course-deep2); text-underline-offset: 2px; }
   position: relative;
   z-index: 1;
   margin: 6px 0 0;
-  font-size: clamp(30px, 6vw, 46px);
+  font-size: clamp(26px, 5vw, 40px);
   font-weight: 800;
   letter-spacing: .04em;
   color: var(--ink);
-  line-height: 1.2;
+  line-height: 1.25;
+}
+
+/* サブタイトル（連携先名）— タイトルの下に小さく */
+.case-header__sub {
+  position: relative;
+  z-index: 1;
+  margin: 8px 0 0;
+  font-size: clamp(15px, 2.6vw, 19px);
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: var(--course-deep2);
 }
 
 .case-header__period {
