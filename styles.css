@@ -1,0 +1,527 @@
+/* =============================================================
+   筑波技術大学 産学連携プロジェクト 事例Webページ
+   デザインシステム  styles.css
+   -------------------------------------------------------------
+   パンフレット（事例ページ_レイアウト案0601.pptx／斜め×山型）の
+   デザイン言語に合わせた、静的HTML＋CSSのみで動く共通スタイル。
+   各事例ページはこの1ファイルを読み込むだけで体裁が揃います。
+   ============================================================= */
+
+/* -------------------------------------------------------------
+   1. デザイントークン（色・余白・書体）
+   -------------------------------------------------------------
+   コース／学科ごとに背景色を変えたいときは、<body> に
+   style="--course-tint: #xxxxxx; --course-deep: #xxxxxx;"
+   を付けるか、下記の :root の値を書き換えてください。
+   ------------------------------------------------------------- */
+:root {
+  /* コースカラー（パンフレットのペールピンク基調・差し替え可能） */
+  --course-tint:  #f6e2e9;   /* 面で使う淡いピンク */
+  --course-soft:  #fbf1f4;   /* さらに淡い背景の差し色 */
+  --course-deep:  #b04d6a;   /* 見出し・ラベル・罫線／白文字を載せる面（白文字 5.1:1） */
+  --course-deep2: #9d3a55;   /* 濃いめのアクセント（見出し文字／淡ピンク上 5.3:1） */
+
+  /* 筑波技術大学 学章カラー（公式・DIC指定をsRGB化）
+     ロゴ・図版・アクセント等で「正確なブランド色」が必要なときに使用。
+     ※これらは鮮やかな原色のため、白文字を載せる面には使えません
+       （白文字とのコントラストが不足）。背景や見出しには各 theme-* の
+       調整済みシェード（--course-deep など）を使ってください。 */
+  --brand-blue:   #00a4d6;   /* 青部 DIC 138 */
+  --brand-green:  #009f41;   /* 緑部 DIC 572 */
+  --brand-yellow: #ffd03a;   /* 黄色 DIC 125 */
+
+  /* 文字色 */
+  --ink:        #2b2b2b;     /* 本文 */
+  --ink-soft:   #5d5d5d;     /* 補足・キャプション */
+  --ink-invert: #ffffff;     /* 濃色背景上の文字 */
+
+  /* ベース */
+  --paper:      #ffffff;     /* 紙面の白 */
+  --hairline:   rgba(0,0,0,.10);
+
+  /* レイアウト */
+  --maxw:       880px;       /* 本文の最大幅 */
+  --radius:     10px;
+  --gap:        24px;
+
+  /* 書体 */
+  --font-sans: "Hiragino Kaku Gothic ProN", "Hiragino Sans",
+               "Yu Gothic", "Meiryo", system-ui, sans-serif;
+
+  --shadow: 0 2px 10px rgba(0,0,0,.06);
+}
+
+/* -------------------------------------------------------------
+   1-b. コーステーマ（公式3色）
+   -------------------------------------------------------------
+   <body class="theme-orange"> のように指定するだけで切り替え。
+   既定（クラスなし）はピンク。すべて WCAG AA を満たします。
+   ------------------------------------------------------------- */
+.theme-orange {
+  --course-tint:  #f3b76f;   /* パンフレットのオレンジそのまま */
+  --course-soft:  #fdf1e2;
+  --course-deep:  #9a5612;   /* 白文字 5.7:1 */
+  --course-deep2: #6e3d05;   /* 見出し（淡背景上 5.0:1〜） */
+}
+
+.theme-gray {
+  --course-tint:  #e6e2df;   /* 暖かみのある淡グレー（greige） */
+  --course-soft:  #f3f0ee;
+  --course-deep:  #54504b;   /* チャコール・白文字 8.0:1 */
+  --course-deep2: #3c3935;   /* 見出し（淡背景上 8.9:1〜） */
+}
+
+/* 学章カラー由来の3テーマ（DIC 138/572/125 を元に、AAを満たすよう調整）
+   背景(tint/soft)は学章色を淡くし、deep/deep2 は白文字・見出しが
+   読めるよう濃いシェードにしています。学章色そのものは --brand-* を使用。 */
+.theme-blue {            /* 青部 DIC138 由来 */
+  --course-tint:  #d2ecf7;
+  --course-soft:  #eef8fc;
+  --course-deep:  #006d96;   /* 白文字 5.8:1 */
+  --course-deep2: #08506e;   /* 見出し（淡背景上 7.2:1〜） */
+}
+
+.theme-green {           /* 緑部 DIC572 由来 */
+  --course-tint:  #d6f0e0;
+  --course-soft:  #eff9f3;
+  --course-deep:  #00773a;   /* 白文字 5.7:1 */
+  --course-deep2: #0a5128;   /* 見出し（淡背景上 7.8:1〜） */
+}
+
+.theme-yellow {          /* 黄色 DIC125 由来。黄は白文字が乗らないため、
+                            deep は黄を深めたダークアンバーにしています。 */
+  --course-tint:  #ffdf7a;
+  --course-soft:  #fff6da;
+  --course-deep:  #8a6500;   /* ダークアンバー・白文字 5.3:1 */
+  --course-deep2: #6e4f00;   /* 見出し（淡背景上 5.8:1〜） */
+}
+
+/* -------------------------------------------------------------
+   2. リセット & ベース
+   ------------------------------------------------------------- */
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--ink);
+  line-height: 1.85;
+  background: var(--course-soft);
+  font-size: 16px;
+  letter-spacing: .02em;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* キーボード操作時のフォーカス可視化（リンク・操作要素） */
+a:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--course-deep2);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* リンクの色（本文中リンク用・下線で色だけに依存させない） */
+a { color: var(--course-deep2); text-underline-offset: 2px; }
+
+/* 動きを減らす設定の利用者に配慮（将来アニメを足しても安全） */
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+}
+
+/* 紙面に見立てた中央のカード */
+.sheet {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  background: var(--paper);
+  box-shadow: var(--shadow);
+}
+
+/* -------------------------------------------------------------
+   3. ヘッダー（斜めの帯 ＝ パンフレットの「斜め」モチーフ）
+   ------------------------------------------------------------- */
+.case-header {
+  position: relative;
+  background: var(--course-tint);
+  padding: 28px 36px 40px;
+  overflow: hidden;
+}
+
+/* 斜めの装飾帯（パンフレットの対角線を踏襲） */
+.case-header::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: 56px;
+  background: var(--paper);
+  clip-path: polygon(0 100%, 100% 0, 100% 100%);
+}
+
+.case-header__eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 14px;
+  font-size: 13px;
+  color: var(--course-deep2);
+  font-weight: 700;
+  letter-spacing: .12em;
+  margin: 0 0 4px;
+}
+
+.case-header__eyebrow .dept {
+  font-size: 15px;
+}
+
+.case-header__eyebrow .tag {
+  color: var(--ink-soft);
+  font-weight: 600;
+  letter-spacing: .08em;
+}
+
+.case-header__partner {
+  position: relative;
+  z-index: 1;
+  margin: 6px 0 0;
+  font-size: clamp(30px, 6vw, 46px);
+  font-weight: 800;
+  letter-spacing: .04em;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.case-header__period {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  margin-top: 10px;
+  padding: 3px 14px;
+  border-radius: 999px;
+  background: var(--course-deep);
+  color: var(--ink-invert);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .08em;
+}
+
+/* -------------------------------------------------------------
+   4. ヒーロー（見出しコピー＋主写真）
+   ------------------------------------------------------------- */
+.hero {
+  padding: 8px 36px 4px;
+}
+
+.hero__headline {
+  font-size: clamp(20px, 4.4vw, 28px);
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 6px 0 22px;
+  color: var(--ink);
+}
+
+.hero__headline .mark {
+  background: linear-gradient(transparent 62%, var(--course-tint) 62%);
+  padding: 0 .1em;
+}
+
+.figure {
+  margin: 0 0 8px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.figure img { width: 100%; }
+
+.figure figcaption {
+  font-size: 13px;
+  color: var(--ink-soft);
+  padding: 8px 12px 2px;
+  line-height: 1.6;
+}
+
+/* -------------------------------------------------------------
+   5. 本文セクション
+   ------------------------------------------------------------- */
+.case-body {
+  padding: 20px 36px 8px;
+}
+
+.section { margin: 0 0 34px; }
+
+.section__title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  color: var(--course-deep2);
+  margin: 0 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--course-tint);
+}
+
+/* 見出し左の小さな四角マーカー */
+.section__title::before {
+  content: "";
+  width: 14px; height: 14px;
+  flex: 0 0 auto;
+  background: var(--course-deep);
+  transform: rotate(45deg);   /* パンフレットの斜めモチーフを反復 */
+}
+
+.section p { margin: 0 0 1em; }
+
+.lead {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* -------------------------------------------------------------
+   6. 連携情報パネル（活動・専門・教員・成果）
+   ------------------------------------------------------------- */
+.facts {
+  display: grid;
+  grid-template-columns: 9.5em 1fr;
+  gap: 0;
+  background: var(--course-soft);
+  border: 1px solid var(--course-tint);
+  border-radius: var(--radius);
+  padding: 4px 20px;
+  margin: 0 0 30px;
+}
+
+.facts dt,
+.facts dd {
+  padding: 12px 4px;
+  margin: 0;
+  border-top: 1px solid var(--hairline);
+}
+
+/* 左ヘッダ列は薄い区切りで内容列と分ける */
+.facts dt {
+  border-right: 1px solid var(--hairline);
+  padding-right: 14px;
+}
+
+.facts dd { padding-left: 16px; }
+
+.facts > dt:first-of-type,
+.facts > dt:first-of-type + dd {
+  border-top: 0;
+}
+
+.facts dt {
+  font-weight: 700;
+  color: var(--course-deep2);
+  font-size: 14px;
+  letter-spacing: .04em;
+}
+
+.facts dd { color: var(--ink); }
+
+/* -------------------------------------------------------------
+   7. 学びカード（学生の学び・関わり方・役目 等）
+   ------------------------------------------------------------- */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--gap);
+  margin: 0 0 30px;
+}
+
+.card {
+  background: var(--course-soft);
+  border-top: 4px solid var(--course-deep);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  box-shadow: var(--shadow);
+}
+
+.card h3 {
+  margin: 0 0 8px;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--course-deep2);
+  letter-spacing: .04em;
+}
+
+.card p { margin: 0; font-size: 15px; }
+
+/* 成果バッジ */
+.outcome {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 4px 0 0;
+}
+
+.outcome li {
+  list-style: none;
+  background: var(--course-deep);
+  color: var(--ink-invert);
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+ul.outcome { padding: 0; }
+
+/* 関連サイトのリンク一覧 */
+.related {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.related li { margin: 0 0 8px; }
+
+.related a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 700;
+  color: var(--course-deep2);
+  text-decoration: none;
+  border-bottom: 2px solid var(--course-tint);
+  padding-bottom: 2px;
+  word-break: break-word;
+}
+
+.related a:hover { border-bottom-color: var(--course-deep); }
+
+/* 引用（企業担当者の評価） */
+.quote {
+  position: relative;
+  background: var(--course-soft);
+  border-left: 5px solid var(--course-deep);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 18px 22px;
+  margin: 0;
+  color: var(--ink);
+}
+
+.quote cite {
+  display: block;
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  font-style: normal;
+}
+
+.quote--pending {
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+/* -------------------------------------------------------------
+   8. フッター
+   ------------------------------------------------------------- */
+.case-footer {
+  padding: 26px 36px 34px;
+  background: var(--course-tint);
+  position: relative;
+  margin-top: 10px;
+}
+
+.case-footer::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: -1px;
+  height: 48px;
+  background: var(--paper);
+  clip-path: polygon(0 0, 100% 0, 0 100%);  /* 上部の斜めモチーフ */
+}
+
+.case-footer__inner {
+  position: relative;
+  z-index: 1;
+  padding-top: 30px;
+}
+
+.case-footer p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+
+.case-footer .org {
+  font-weight: 800;
+  color: var(--ink);
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.copyright {
+  margin-top: 16px !important;
+  font-size: 12px !important;
+  color: var(--ink-soft);
+}
+
+/* -------------------------------------------------------------
+   8-b. 学章カラー（青→緑→黄）のトリコロール部品
+   -------------------------------------------------------------
+   ブランドページ（トップ/表紙）で3色をまとめて使うための装飾。
+   いずれも「面（無地）」なので文字は載せず、学章色そのものを使用。
+   配色順は学章に合わせて 青→緑→黄 で固定します。
+   ------------------------------------------------------------- */
+
+/* 水平のトリコロール帯（区切り線・アクセント） */
+.brand-rule {
+  height: 6px;
+  border: 0;
+  margin: 0;
+  background: linear-gradient(
+    to right,
+    var(--brand-blue)   0 33.33%,
+    var(--brand-green)  33.33% 66.66%,
+    var(--brand-yellow) 66.66% 100%
+  );
+}
+
+/* 斜めのトリコロール帯（パンフレットの「斜め」モチーフを3色で） */
+.brand-rule--diagonal {
+  height: 14px;
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--brand-blue)   0 16px,
+    var(--brand-green)  16px 32px,
+    var(--brand-yellow) 32px 48px
+  );
+}
+
+/* 3色のドット（見出し脇などの小さなアクセント） */
+.brand-dots { display: inline-flex; gap: 6px; vertical-align: middle; }
+.brand-dots i {
+  width: 10px; height: 10px; border-radius: 50%; display: inline-block;
+}
+.brand-dots i:nth-child(1) { background: var(--brand-blue); }
+.brand-dots i:nth-child(2) { background: var(--brand-green); }
+.brand-dots i:nth-child(3) { background: var(--brand-yellow); }
+
+/* -------------------------------------------------------------
+   9. レスポンシブ
+   ------------------------------------------------------------- */
+@media (max-width: 600px) {
+  body { font-size: 15px; }
+  .case-header,
+  .hero,
+  .case-body,
+  .case-footer { padding-left: 20px; padding-right: 20px; }
+  /* 狭い画面でも2列は維持しつつ、ヘッダ列を少し狭める */
+  .facts { grid-template-columns: 7.5em 1fr; padding: 4px 14px; }
+  .facts dt { padding-right: 10px; font-size: 13px; }
+  .facts dd { padding-left: 12px; }
+}
+
+/* 印刷 */
+@media print {
+  body { background: #fff; }
+  .sheet { box-shadow: none; max-width: none; }
+}

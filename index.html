@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>産学連携プロジェクト｜筑波技術大学 産業技術学部</title>
+  <meta name="description" content="筑波技術大学 産業技術学部の地域・企業連携の事例集。聞こえない・聞こえにくい人の視点から社会課題を発掘し、情報・機械・建築・デザインの力で解決を提案します。">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* === ブランドトップページ専用レイアウト ===
+       白を基調（約60%）に、学章3色（青・緑・黄）を等価のアクセントとして使用。 */
+    body { background: #fff; }
+    .wrap { max-width: 1000px; margin: 0 auto; }
+
+    /* ヒーロー */
+    .top-hero__inner { padding: 28px 32px 16px; }
+    .top-hero__eyebrow {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 14px; font-weight: 700; letter-spacing: .12em; color: var(--ink-soft); margin: 0 0 10px;
+    }
+    .top-hero h1 {
+      margin: 0; font-size: clamp(30px, 6.4vw, 52px); line-height: 1.15; letter-spacing: .04em; color: var(--ink);
+    }
+    .top-hero .sub { margin: 16px 0 0; font-size: clamp(16px,2.6vw,19px); color: var(--ink); font-weight: 600; }
+    .tricolor-word .c1 { color: #006d96; }
+    .tricolor-word .c2 { color: #00773a; }
+    .tricolor-word .c3 { color: #8a6500; }
+
+    section { scroll-margin-top: 12px; }
+    .sec-pad { padding: 22px 32px; }
+    .sec-title {
+      display: flex; align-items: center; gap: 12px;
+      font-size: clamp(20px,3.4vw,24px); font-weight: 800; letter-spacing: .04em; margin: 0 0 5px;
+    }
+    .sec-note { margin: 2px 0 15px; color: var(--ink-soft); font-size: 14px; }
+
+    /* 特色（slide 1）— 3本柱（学章3色を各柱に対応・横並びでコンパクトに） */
+    .principles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .principle {
+      background: #fff; border: 1px solid #ececec; border-top: 4px solid var(--pc);
+      border-radius: 10px; padding: 15px 18px 17px; box-shadow: var(--shadow);
+    }
+    .principle__head { margin: 0 0 7px; font-size: 17px; font-weight: 800; line-height: 1.45; color: var(--pt); }
+    .principle__body { margin: 0; font-size: 13.5px; line-height: 1.75; color: var(--ink); }
+    .principle.p1 { --pc:#006d96; --pt:#08506e; }
+    .principle.p2 { --pc:#00773a; --pt:#0a5128; }
+    .principle.p3 { --pc:#8a6500; --pt:#6e4f00; }
+    @media (max-width: 720px){ .principles { grid-template-columns: 1fr; } }
+
+    /* 事例カード（写真付き・統一サイズ） */
+    .case-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(240px,1fr)); gap: 20px; }
+    .bcard {
+      display: flex; flex-direction: column; text-decoration: none; color: var(--ink);
+      background: #fff; border: 1px solid #ececec; border-radius: 12px; overflow: hidden;
+      box-shadow: var(--shadow); transition: transform .12s ease, box-shadow .12s ease;
+    }
+    .bcard:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(0,0,0,.12); }
+    .bcard:focus-visible { outline: 3px solid var(--course-deep2); outline-offset: 2px; }
+    /* padding比率で高さを固定（flexの伸長に影響されず全カード均一） */
+    .bcard__thumb { position: relative; width: 100%; padding-top: 56.25%; background: var(--course-tint); flex: 0 0 auto; }
+    .bcard__thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+    .bcard__bar { height: 5px; background: var(--course-deep); flex: 0 0 auto; }
+    .bcard__body { padding: 14px 16px 16px; display: flex; flex-direction: column; flex: 1; }
+    .bcard__tag {
+      align-self: flex-start; font-size: 12px; font-weight: 700; letter-spacing: .03em;
+      color: #fff; background: var(--course-deep); padding: 3px 10px; border-radius: 999px; margin-bottom: 9px;
+    }
+    .bcard__title { font-size: 18px; font-weight: 800; margin: 0 0 6px; letter-spacing: .02em; }
+    .bcard__desc { font-size: 13.5px; color: var(--ink-soft); line-height: 1.7; margin: 0 0 12px; }
+    .bcard__more { margin-top: auto; font-size: 13px; font-weight: 700; color: var(--course-deep2); }
+
+    /* 連携を求める理由（slide 18） */
+    .reasons { background: #f6f7f5; border-radius: 14px; padding: 30px 32px; }
+    .reasons__lead { margin: 0 0 22px; font-size: 16px; line-height: 1.9; max-width: 46em; }
+    .tree { display: grid; gap: 16px; }
+    .branch {
+      display: grid; grid-template-columns: 150px 1fr 1fr; gap: 0;
+      background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid #e7e7e7;
+    }
+    .branch__label { padding: 18px 18px; color: #fff; }
+    .branch__label .k { font-size: 26px; font-weight: 800; line-height: 1; display: block; margin-bottom: 8px; }
+    .branch__label .t { font-size: 13px; line-height: 1.6; font-weight: 700; }
+    .branch.root .branch__label { background: #00773a; }
+    .branch.trunk .branch__label { background: #006d96; }
+    .branch.leaf .branch__label { background: #8a6500; }
+    .branch__col { padding: 16px 18px; font-size: 14px; line-height: 1.8; }
+    .branch__col .colh { margin: 0 0 8px; font-size: 12px; letter-spacing: .06em; color: var(--ink-soft); font-weight: 700; }
+    .branch__col + .branch__col { border-left: 1px solid #eee; }
+    .branch__col ul { margin: 0; padding-left: 1.1em; }
+    .branch__col li { margin: 0 0 4px; }
+
+    /* フッター */
+    .top-foot { padding: 28px 32px 38px; }
+    .top-foot .org { font-weight: 800; font-size: 15px; margin: 14px 0 4px; }
+    .top-foot p { margin: 0; color: var(--ink-soft); font-size: 13px; line-height: 1.7; }
+    .top-foot a { color: var(--course-deep2); }
+
+    @media (max-width: 720px){
+      .pillars { grid-template-columns: 1fr; }
+      .branch { grid-template-columns: 1fr; }
+      .branch__col + .branch__col { border-left: 0; border-top: 1px solid #eee; }
+      .top-hero__inner,.sec-pad,.top-foot { padding-left: 20px; padding-right: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- ヘッダー（banner） -->
+    <header class="top-hero">
+      <div class="brand-rule brand-rule--diagonal" aria-hidden="true"></div>
+      <div class="top-hero__inner">
+        <p class="top-hero__eyebrow">
+          筑波技術大学 産業技術学部
+          <span class="brand-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        </p>
+        <h1 class="tricolor-word">地域・企業連携の<br>プロジェクト</h1>
+        <p class="sub">学生の<b class="c1">専門性</b>と、社会の<b class="c2">課題</b>と、現場での<b class="c3">実装</b>。</p>
+      </div>
+    </header>
+
+    <!-- 主コンテンツ（main） -->
+    <main>
+
+      <!-- 特色（スライド1） -->
+      <section class="sec-pad" aria-labelledby="valueTitle">
+        <h2 id="valueTitle" class="sec-title">技大ならではの価値</h2>
+        <p class="sec-note">他大とは異なる、産業技術学部の地域・企業連携の特色。</p>
+        <div class="principles">
+          <div class="principle p1">
+            <p class="principle__head">誰もが、在学中から<br>企業や地域と組める</p>
+            <p class="principle__body">特別な人だけではありません。授業・課外活動・卒業研究の中で、一人一人が主役になります。</p>
+          </div>
+          <div class="principle p2">
+            <p class="principle__head">あなたの経験が、<br>そのまま強みになる</p>
+            <p class="principle__body">聞こえ方の違いなど日常の気づきから社会課題を見つけ、仲間と解決のヒントに変えます。</p>
+          </div>
+          <div class="principle p3">
+            <p class="principle__head">学びが、社会を<br>実際に変えていく</p>
+            <p class="principle__body">情報・機械・建築・デザインの技術で、企業と一緒に提案から社会への実装まで。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 事例 -->
+      <section class="sec-pad" aria-labelledby="casesTitle">
+        <h2 id="casesTitle" class="sec-title">
+          連携事例
+          <span class="brand-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        </h2>
+        <p class="sec-note">コース（学科・領域）ごとに色を分けています。各カードから詳細ページへ。</p>
+
+        <div class="case-grid">
+
+          <a class="bcard" href="jma.html">
+            <span class="bcard__thumb"><img src="images/jma-tsunami-flag.jpg" alt=""></span>
+            <span class="bcard__bar" aria-hidden="true"></span>
+            <span class="bcard__body">
+              <span class="bcard__tag">総合デザイン学科</span>
+              <span class="bcard__title">気象庁</span>
+              <span class="bcard__desc">「津波フラッグ」制定への協力と、要配慮者対策の意見交換。</span>
+              <span class="bcard__more">詳しく見る →</span>
+            </span>
+          </a>
+
+          <a class="bcard" href="case-airport.html">
+            <span class="bcard__thumb"><img src="images/case-airport.jpg" alt=""></span>
+            <span class="bcard__bar" aria-hidden="true"></span>
+            <span class="bcard__body">
+              <span class="bcard__tag">デザイン系</span>
+              <span class="bcard__title">羽田空港</span>
+              <span class="bcard__desc">社会を変えるデザイン — 空港UDプロジェクト。</span>
+              <span class="bcard__more">詳しく見る →</span>
+            </span>
+          </a>
+
+          <a class="bcard theme-orange" href="case-bricolage.html">
+            <span class="bcard__thumb"><img src="images/case-bricolage.jpg" alt=""></span>
+            <span class="bcard__bar" aria-hidden="true"></span>
+            <span class="bcard__body">
+              <span class="bcard__tag">建築・福祉住環境学</span>
+              <span class="bcard__title">ブリコラージュ</span>
+              <span class="bcard__desc">引退競走馬と育む暮らしの場のデザイン提案・実現。</span>
+              <span class="bcard__more">詳しく見る →</span>
+            </span>
+          </a>
+
+          <a class="bcard theme-orange" href="case-nihonbashi.html">
+            <span class="bcard__thumb"><img src="images/case-nihonbashi.jpg" alt=""></span>
+            <span class="bcard__bar" aria-hidden="true"></span>
+            <span class="bcard__body">
+              <span class="bcard__tag">建築・福祉住環境学</span>
+              <span class="bcard__title">日本橋室町エリアマネジメント</span>
+              <span class="bcard__desc">オフィスや街のユニバーサルデザインの検証と改善提案。</span>
+              <span class="bcard__more">詳しく見る →</span>
+            </span>
+          </a>
+
+          <a class="bcard theme-gray" href="case-tsukuba-ud.html">
+            <span class="bcard__thumb"><img src="images/case-tsukuba-ud.jpg" alt=""></span>
+            <span class="bcard__bar" aria-hidden="true"></span>
+            <span class="bcard__body">
+              <span class="bcard__tag">情報・機械・建築・デザイン</span>
+              <span class="bcard__title">つくば市（職員UD研修）</span>
+              <span class="bcard__desc">つくば市職員ユニバーサルデザイン研修。2007年から継続。</span>
+              <span class="bcard__more">詳しく見る →</span>
+            </span>
+          </a>
+
+          <a class="bcard theme-green" href="case-tx.html">
+            <span class="bcard__thumb"><img src="images/case-tx.jpg" alt=""></span>
+            <span class="bcard__bar" aria-hidden="true"></span>
+            <span class="bcard__body">
+              <span class="bcard__tag">全領域</span>
+              <span class="bcard__title">TX つくばエクスプレス</span>
+              <span class="bcard__desc">公共交通におけるUX・情報設計の実践。</span>
+              <span class="bcard__more">詳しく見る →</span>
+            </span>
+          </a>
+
+          <a class="bcard theme-green" href="case-tsukuba-shelter.html">
+            <span class="bcard__thumb"><img src="images/case-tsukuba-shelter.jpg" alt=""></span>
+            <span class="bcard__bar" aria-hidden="true"></span>
+            <span class="bcard__body">
+              <span class="bcard__tag">全学部</span>
+              <span class="bcard__title">つくば市（避難所体験）</span>
+              <span class="bcard__desc">障害当事者視点による避難所運営体制の改善提案。</span>
+              <span class="bcard__more">詳しく見る →</span>
+            </span>
+          </a>
+
+          <a class="bcard theme-green" href="case-mri-iseee.html">
+            <span class="bcard__thumb"><img src="images/case-mri-iseee.jpg" alt=""></span>
+            <span class="bcard__bar" aria-hidden="true"></span>
+            <span class="bcard__body">
+              <span class="bcard__tag">全学部</span>
+              <span class="bcard__title">三菱総研DCS</span>
+              <span class="bcard__desc">情報共有プラットフォーム「ISeee TimeLine」の共同実証。</span>
+              <span class="bcard__more">詳しく見る →</span>
+            </span>
+          </a>
+
+          <a class="bcard theme-blue" href="case-yysystem.html">
+            <span class="bcard__thumb"><img src="images/case-yysystem.png" alt=""></span>
+            <span class="bcard__bar" aria-hidden="true"></span>
+            <span class="bcard__body">
+              <span class="bcard__tag">情報系</span>
+              <span class="bcard__title">YYSystem</span>
+              <span class="bcard__desc">リアルタイム音声認識システムの開発チームへの参加。</span>
+              <span class="bcard__more">詳しく見る →</span>
+            </span>
+          </a>
+
+          <a class="bcard theme-blue" href="case-ricoh-pekoe.html">
+            <span class="bcard__thumb"><img src="images/case-ricoh-pekoe.png" alt=""></span>
+            <span class="bcard__bar" aria-hidden="true"></span>
+            <span class="bcard__body">
+              <span class="bcard__tag">情報系</span>
+              <span class="bcard__title">株式会社リコー</span>
+              <span class="bcard__desc">コミュニケーションサービスPekoeへの新規機能提案と開発。</span>
+              <span class="bcard__more">詳しく見る →</span>
+            </span>
+          </a>
+
+          <a class="bcard theme-blue" href="case-deloitte-bosai.html">
+            <span class="bcard__thumb"><img src="images/case-deloitte-bosai.jpg" alt=""></span>
+            <span class="bcard__bar" aria-hidden="true"></span>
+            <span class="bcard__body">
+              <span class="bcard__tag">情報系</span>
+              <span class="bcard__title">デロイトトーマツ</span>
+              <span class="bcard__desc">防災情報アプリ「Smart BOSAI Connect」への新機能提案。</span>
+              <span class="bcard__more">詳しく見る →</span>
+            </span>
+          </a>
+
+          <a class="bcard theme-blue" href="case-pixie-vuevo.html">
+            <span class="bcard__thumb"><img src="images/case-pixie-vuevo.jpg" alt=""></span>
+            <span class="bcard__bar" aria-hidden="true"></span>
+            <span class="bcard__body">
+              <span class="bcard__tag">情報系</span>
+              <span class="bcard__title">ピクシーダストテクノロジーズ</span>
+              <span class="bcard__desc">ろう・難聴者と聴者のコミュニケーション促進の研究（VUEVO）。</span>
+              <span class="bcard__more">詳しく見る →</span>
+            </span>
+          </a>
+
+          <a class="bcard theme-blue" href="case-rsgt.html">
+            <span class="bcard__thumb"><img src="images/case-rsgt.png" alt=""></span>
+            <span class="bcard__bar" aria-hidden="true"></span>
+            <span class="bcard__body">
+              <span class="bcard__tag">情報系</span>
+              <span class="bcard__title">RSGT（情報保障）</span>
+              <span class="bcard__desc">イベントにおける情報保障体制の提案と設計。</span>
+              <span class="bcard__more">詳しく見る →</span>
+            </span>
+          </a>
+
+          <a class="bcard theme-yellow" href="case-tanseisha.html">
+            <span class="bcard__thumb"><img src="images/case-tanseisha.jpg" alt=""></span>
+            <span class="bcard__bar" aria-hidden="true"></span>
+            <span class="bcard__body">
+              <span class="bcard__tag">支援技術学コース</span>
+              <span class="bcard__title">株式会社丹青社</span>
+              <span class="bcard__desc">指文字認識AIを活用したスポーツゲームコンテンツの共同開発。</span>
+              <span class="bcard__more">詳しく見る →</span>
+            </span>
+          </a>
+
+        </div>
+      </section>
+
+      <!-- 連携を求める理由（スライド18） -->
+      <section class="sec-pad" aria-labelledby="reasonsTitle">
+        <h2 id="reasonsTitle" class="sec-title">企業が連携を求める理由</h2>
+        <p class="sec-note">技大の独自性 — 大学で起きていることが、なぜ企業の価値になるのか。</p>
+        <div class="reasons">
+          <p class="reasons__lead">ダイバーシティ&インクルージョンが進む現代社会に求められる役割を、当事者としての経験・知見を活かしつつ、社会実装するまでの過程で学ぶことができます。技大の独自性は「根・幹・葉」の3層で説明できます。</p>
+          <div class="tree">
+
+            <div class="branch root">
+              <div class="branch__label">
+                <span class="k">根</span>
+                <span class="t">他では代替できない「土壌」</span>
+              </div>
+              <div class="branch__col">
+                <p class="colh">大学で起きていること</p>
+                <ul>
+                  <li>「聞こえない人」がマジョリティ</li>
+                  <li>音声に依存しない情報設計の確立</li>
+                </ul>
+              </div>
+              <div class="branch__col">
+                <p class="colh">企業が求める理由</p>
+                <p>「マイノリティ＝例外」の企業にとって、</p>
+                <ul>
+                  <li>通常のユーザー調査では絶対に取れない</li>
+                  <li>倫理配慮／同調圧力のない行動データ</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="branch trunk">
+              <div class="branch__label">
+                <span class="k">幹</span>
+                <span class="t">独自な環境から普遍的な「知」を創り出す</span>
+              </div>
+              <div class="branch__col">
+                <p class="colh">大学で起きていること</p>
+                <ul>
+                  <li>個別最適な支援知識として閉じず</li>
+                  <li>普遍的な実践知へと再構成</li>
+                </ul>
+              </div>
+              <div class="branch__col">
+                <p class="colh">企業が求める理由</p>
+                <p>公平性／汎用性を重視する企業にとって、</p>
+                <ul>
+                  <li>「障害者の話」で終わらない</li>
+                  <li>マイノリティ一般に拡張可能</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="branch leaf">
+              <div class="branch__label">
+                <span class="k">葉</span>
+                <span class="t">社会に実装される「共創の方法論」</span>
+              </div>
+              <div class="branch__col">
+                <p class="colh">大学で起きていること</p>
+                <ul>
+                  <li>当事者の不満をそのまま主張しない</li>
+                  <li>他者の価値観や制約と擦り合せる</li>
+                  <li>実装可能な提案に翻訳</li>
+                </ul>
+              </div>
+              <div class="branch__col">
+                <p class="colh">企業が求める理由</p>
+                <p>事業性を重視する企業にとって、</p>
+                <ul>
+                  <li>社会性と事業性を両立できる</li>
+                  <li>炎上しにくいインクルーシブ設計</li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- フッター（contentinfo） -->
+    <footer class="top-foot">
+      <div class="brand-rule" aria-hidden="true"></div>
+      <p class="org">企業とともに社会をつくる — 筑波技術大学 産業技術学部｜企業連携実績</p>
+      <p>本サイトは、パンフレット掲載事例の詳細版です。</p>
+      <p style="margin-top:12px;font-size:12px;">©︎ 2026 Local Commons Inc.</p>
+    </footer>
+
+  </div>
+</body>
+</html>
