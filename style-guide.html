@@ -133,102 +133,76 @@
   <!-- ===== 3. コース色の変え方 ===== -->
   <section id="course">
     <h2><span class="num">3</span>コース色の変え方</h2>
-    <p class="desc">コース（学科）ごとに背景色を変えるには、<code class="inline">&lt;body&gt;</code> に変数を上書きするだけ。CSSの編集は不要で、同じコースの4事例は1色で統一します。パンフレット（2ページ目）に合わせた公式3テーマを用意しました。</p>
+    <p class="desc">コース（学科・領域）ごとに色を分けます。<code class="inline">&lt;body&gt;</code> にクラスを付けるだけで切替わり、CSSの編集は不要です。配色はパンフレット「産業技術学部」の各コース色を元にし、すべて WCAG AA（コントラスト比4.5以上）を満たします。<b>全学部・全領域・横断の事例はクラス無し（＝既定のグレー）</b>でOK。</p>
 
     <div class="demo">
       <div class="courses">
-        <div class="course-demo" style="--course-tint:#f6e2e9;--course-deep:#b04d6a">
-          <div class="bar" style="background:var(--course-tint)">ピンク（既定）</div>
-          <div class="body"><code>tint #f6e2e9 / deep #b04d6a</code></div>
+        <div class="course-demo theme-info" style="--course-tint:#d7edf4;--course-deep:#017ca2">
+          <div class="bar" style="background:var(--course-tint)">情報科学コース（青）</div>
+          <div class="body"><code>theme-info / tint #d7edf4 / deep #017ca2</code></div>
         </div>
-        <div class="course-demo" style="--course-tint:#f3b76f;--course-deep:#9a5612">
-          <div class="bar" style="background:var(--course-tint)">オレンジ</div>
-          <div class="body"><code>tint #f3b76f / deep #9a5612</code></div>
+        <div class="course-demo theme-mech" style="--course-tint:#e0eedd;--course-deep:#45733a">
+          <div class="bar" style="background:var(--course-tint)">先端機械工学コース（緑）</div>
+          <div class="body"><code>theme-mech / tint #e0eedd / deep #45733a</code></div>
         </div>
-        <div class="course-demo" style="--course-tint:#e6e2df;--course-deep:#54504b">
-          <div class="bar" style="background:var(--course-tint)">グレー（チャコール）</div>
-          <div class="body"><code>tint #e6e2df / deep #54504b</code></div>
+        <div class="course-demo theme-arch" style="--course-tint:#f3d8da;--course-deep:#842a2f">
+          <div class="bar" style="background:var(--course-tint)">建築学コース（赤）</div>
+          <div class="body"><code>theme-arch / tint #f3d8da / deep #842a2f</code></div>
         </div>
-        <div class="course-demo" style="--course-tint:#d2ecf7;--course-deep:#006d96">
-          <div class="bar" style="background:var(--course-tint)">青（学章 DIC138）</div>
-          <div class="body"><code>tint #d2ecf7 / deep #006d96</code></div>
+        <div class="course-demo theme-design" style="--course-tint:#f4e3d7;--course-deep:#a54709">
+          <div class="bar" style="background:var(--course-tint)">クリエイティブデザイン学（橙）</div>
+          <div class="body"><code>theme-design / tint #f4e3d7 / deep #a54709</code></div>
         </div>
-        <div class="course-demo" style="--course-tint:#d6f0e0;--course-deep:#00773a">
-          <div class="bar" style="background:var(--course-tint)">緑（学章 DIC572）</div>
-          <div class="body"><code>tint #d6f0e0 / deep #00773a</code></div>
+        <div class="course-demo theme-support" style="--course-tint:#d7f3f4;--course-deep:#028283">
+          <div class="bar" style="background:var(--course-tint)">支援技術学コース（青緑）</div>
+          <div class="body"><code>theme-support / tint #d7f3f4 / deep #028283</code></div>
         </div>
-        <div class="course-demo" style="--course-tint:#ffdf7a;--course-deep:#8a6500">
-          <div class="bar" style="background:var(--course-tint)">黄（学章 DIC125）</div>
-          <div class="body"><code>tint #ffdf7a / deep #8a6500</code></div>
-        </div>
-      </div>
-    </div>
-
-    <h3>① ピンク（既定）</h3>
-    <p class="desc" style="margin-bottom:8px;">CSSの初期値。上書き不要でそのまま使えます。</p>
-<pre><code>&lt;body&gt;  &lt;!-- 何も指定しなければピンク --&gt;</code></pre>
-
-    <h3>② オレンジ</h3>
-    <p class="desc" style="margin-bottom:8px;">パンフレットのオレンジ <code class="inline">#f3b76f</code> をそのまま背景に。アクセントは濃い茶系で締めます。</p>
-<pre><code>&lt;body style="--course-tint:#f3b76f; --course-soft:#fdf1e2;
-             --course-deep:#9a5612; --course-deep2:#6e3d05;"&gt;</code></pre>
-
-    <h3>③ グレー（チャコール）</h3>
-    <p class="desc" style="margin-bottom:8px;">背景は暖かみのある淡グレー、アクセントは黒に近いチャコールで。</p>
-<pre><code>&lt;body style="--course-tint:#e6e2df; --course-soft:#f3f0ee;
-             --course-deep:#54504b; --course-deep2:#3c3935;"&gt;</code></pre>
-
-    <h3>④ 学章カラー（青・緑・黄）</h3>
-    <p class="desc" style="margin-bottom:8px;">
-      筑波技術大学の学章色（<b>青 DIC138 / 緑 DIC572 / 黄 DIC125</b>）を元にしたテーマ。
-      クラス名 <code class="inline">theme-blue</code> / <code class="inline">theme-green</code> / <code class="inline">theme-yellow</code> で切り替えます。
-    </p>
-<pre><code>&lt;body class="theme-blue"&gt;    &lt;!-- 青 DIC138 --&gt;
-&lt;body class="theme-green"&gt;   &lt;!-- 緑 DIC572 --&gt;
-&lt;body class="theme-yellow"&gt;  &lt;!-- 黄 DIC125 --&gt;</code></pre>
-
-    <p class="desc" style="background:#eef8fc;border-left:4px solid #006d96;border-radius:0 8px 8px 0;padding:14px 18px;margin-top:14px;">
-      <b style="color:#08506e;">学章色そのものは <code>--brand-blue / --brand-green / --brand-yellow</code></b><br>
-      正確なブランド色（<code>#00a4d6 / #009f41 / #ffd03a</code>）はロゴ・図版・アクセント用に <code>--brand-*</code> として別に用意しています。ただし学章色は鮮やかな原色のため<b>白文字を載せると読めません</b>（白文字 on 黄＝1.5:1、青＝2.9:1）。そこで背景は学章色を淡くした <code>tint</code> に、見出しや白文字バッジは濃く調整した <code>deep</code> にしています。
-    </p>
-
-    <p class="desc" style="background:#fffaf0;border-left:4px solid #8a6500;border-radius:0 8px 8px 0;padding:14px 18px;">
-      <b style="color:#6e4f00;">黄色の扱い方（グレーと同じ考え方）</b><br>
-      黄色は明るすぎて白文字が絶対に乗りません。そこで <b>deep だけは黄を深めたダークアンバー <code>#8a6500</code></b> にして、成果バッジや期間ラベルの白文字を確保しています（白文字 5.3:1）。背景の鮮やかな黄色はそのまま個性として活かせます。
-    </p>
-
-    <h3>⑤ 学章3色をまとめて使う（ブランドページ）</h3>
-    <p class="desc" style="margin-bottom:10px;">
-      トップページや表紙など、学章の3色を1ページで前面に出したいときの組み合わせ方です。実例は
-      <a href="index.html" target="_blank" rel="noopener">index.html（ブランドトップ）</a> を参照。
-    </p>
-    <div class="demo" style="padding:0;overflow:hidden;">
-      <div class="brand-rule brand-rule--diagonal"></div>
-      <div style="padding:18px 20px;">
-        <span class="brand-dots"><i></i><i></i><i></i></span>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px;">
-          <div style="background:#006d96;color:#fff;border-radius:8px;padding:12px 14px;font-size:13px;font-weight:700;">青ブロック<br><span style="font-weight:400;font-size:12px;">白文字 5.8:1</span></div>
-          <div style="background:#00773a;color:#fff;border-radius:8px;padding:12px 14px;font-size:13px;font-weight:700;">緑ブロック<br><span style="font-weight:400;font-size:12px;">白文字 5.7:1</span></div>
-          <div style="background:#8a6500;color:#fff;border-radius:8px;padding:12px 14px;font-size:13px;font-weight:700;">黄ブロック<br><span style="font-weight:400;font-size:12px;">白文字 5.3:1</span></div>
+        <div class="course-demo theme-gray" style="--course-tint:#e6e2df;--course-deep:#54504b">
+          <div class="bar" style="background:var(--course-tint)">全学部・全領域・横断（グレー・既定）</div>
+          <div class="body"><code>theme-gray / tint #e6e2df / deep #54504b</code></div>
         </div>
       </div>
     </div>
-    <p class="desc" style="margin-top:6px;">
-      3色をまとめるコツは4つ：<b>①白を基調（約6割）</b>にして3色は“差し色”に留める／<b>②並べる順番は学章どおり 青→緑→黄 で固定</b>／<b>③色面に文字を載せるときは調整シェード（deep）</b>を使う（鮮やかな原色 <code>--brand-*</code> は線・帯・ドットなど文字が乗らない装飾だけに）／<b>④黄の面の文字は暗色</b>に。
-    </p>
-    <p class="desc">
-      再利用できる部品：<code class="inline">.brand-rule</code>（水平のトリコロール帯）、<code class="inline">.brand-rule--diagonal</code>（斜めのトリコロール帯＝パンフレットの斜めモチーフ）、<code class="inline">.brand-dots</code>（3色ドット）。装飾なので <code class="inline">aria-hidden="true"</code> を付けて読み上げから除外します。
-    </p>
+
+    <h3>使い方</h3>
+    <p class="desc" style="margin-bottom:8px;"><code class="inline">&lt;body&gt;</code> にコースのクラスを付けるだけ。全学部・全領域・横断はクラス無し（既定グレー）。</p>
+<pre><code>&lt;body class="theme-info"&gt;     &lt;!-- 情報科学コース（青）   --&gt;
+&lt;body class="theme-mech"&gt;     &lt;!-- 先端機械工学コース（緑） --&gt;
+&lt;body class="theme-arch"&gt;     &lt;!-- 建築学コース（赤）     --&gt;
+&lt;body class="theme-design"&gt;   &lt;!-- クリエイティブデザイン学（橙）--&gt;
+&lt;body class="theme-support"&gt;  &lt;!-- 支援技術学コース（青緑） --&gt;
+&lt;body&gt;  または class="theme-gray"  &lt;!-- 全学部・全領域・横断（グレー）--&gt;</code></pre>
+
+    <h3>領域 → コース色の対応</h3>
+    <p class="desc" style="margin-bottom:8px;">事例の「関わった学生の領域」から、次の対応でクラスを選びます。</p>
+    <div class="demo" style="padding:0;overflow:auto;">
+      <table style="width:100%;border-collapse:collapse;font-size:13.5px;">
+        <thead><tr style="text-align:left;border-bottom:2px solid #e3e3e8;">
+          <th style="padding:8px 12px;">領域（事例の表記）</th><th style="padding:8px 12px;">コース／色</th><th style="padding:8px 12px;">クラス</th></tr></thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #f0f0f2;"><td style="padding:8px 12px;">情報系</td><td style="padding:8px 12px;">情報科学コース・青</td><td style="padding:8px 12px;"><code>theme-info</code></td></tr>
+          <tr style="border-bottom:1px solid #f0f0f2;"><td style="padding:8px 12px;">機械系</td><td style="padding:8px 12px;">先端機械工学コース・緑</td><td style="padding:8px 12px;"><code>theme-mech</code></td></tr>
+          <tr style="border-bottom:1px solid #f0f0f2;"><td style="padding:8px 12px;">建築学・福祉住環境学</td><td style="padding:8px 12px;">建築学コース・赤</td><td style="padding:8px 12px;"><code>theme-arch</code></td></tr>
+          <tr style="border-bottom:1px solid #f0f0f2;"><td style="padding:8px 12px;">デザイン系・総合デザイン学科</td><td style="padding:8px 12px;">クリエイティブデザイン学・橙</td><td style="padding:8px 12px;"><code>theme-design</code></td></tr>
+          <tr style="border-bottom:1px solid #f0f0f2;"><td style="padding:8px 12px;">支援技術学コース</td><td style="padding:8px 12px;">支援技術学コース・青緑</td><td style="padding:8px 12px;"><code>theme-support</code></td></tr>
+          <tr><td style="padding:8px 12px;">全学部・全領域・横断</td><td style="padding:8px 12px;">グレー（既定）</td><td style="padding:8px 12px;"><code>（なし）/ theme-gray</code></td></tr>
+        </tbody>
+      </table>
+    </div>
 
     <p class="desc" style="background:#f4f1ef;border-left:4px solid #54504b;border-radius:0 8px 8px 0;padding:14px 18px;margin-top:18px;">
-      <b style="color:#3c3935;">グレーの扱い方（ポイント）</b><br>
-      無彩色は、淡いグレーをアクセントにも使うと「灰色＝無効・非活性」に見え、地味で識別しづらくなります。そこで <b>アクセント側（deep / deep2）だけは黒に近いチャコール</b>にするのがコツです。背景は淡グレーのまま、見出し・罫線・成果バッジ・斜めマーカーをチャコールにすることで、引き締まったモノトーンの個性が出て、白文字も余裕で読めます（白文字 on <code>#54504b</code> ＝ 8.0:1）。<br>
-      また純粋な無彩色より、ほんの少し暖色（greige）に寄せた <code>#e6e2df</code> を使うと、パンフレットの紙の質感ともなじみ「意図した色」に見えます。
+      <b style="color:#3c3935;">グレー（全学部）の扱い方</b><br>
+      淡いグレーをアクセントにも使うと「無効・非活性」に見えて地味です。そこで <b>アクセント側（deep / deep2）だけは黒に近いチャコール</b>に。背景は淡グレーのまま、見出し・罫線・成果バッジをチャコールにすると引き締まり、白文字も読めます（白文字 on <code>#54504b</code> ＝ 8.0:1）。少し暖色寄り（greige）の <code>#e6e2df</code> で紙の質感ともなじみます。
+    </p>
+
+    <p class="desc" style="background:#eef8fc;border-left:4px solid #017093;border-radius:0 8px 8px 0;padding:14px 18px;">
+      <b style="color:#017093;">パンフレット色 → 調整シェードの考え方</b><br>
+      パンフレットの各コース色（青 <code>#019aca</code>／緑 <code>#75b266</code>／赤 <code>#cb5b61</code>／橙 <code>#f47b2a</code>／青緑 <code>#02abad</code>）は鮮やかなため、そのままでは白文字が読めません。背景 <code>tint/soft</code> はその色を淡くし、<code>deep/deep2</code> は白文字・見出しが読める濃さに調整しています。学章色（DIC）はロゴ・トリコロール装飾用に <code>--brand-*</code> として別に保持し、トップページの3色帯などに使います。
     </p>
 
     <p class="desc" style="background:#fff4f7;border-left:4px solid var(--course-deep);border-radius:0 8px 8px 0;padding:14px 18px;">
       <b style="color:var(--course-deep2)">⚠ コントラストの基準（色を新規に作るとき）</b><br>
-      <b>deep</b> には白文字（成果バッジ・期間ラベル）が載ります。白文字とのコントラスト比が <b>4.5:1 以上</b> になる濃さを選んでください。<b>deep2</b>（見出し文字）も <b>tint・soft・白</b> の各背景に対して 4.5:1 以上を確保します。上の6テーマ（ピンク・オレンジ・グレー・青・緑・黄）はすべてこの基準を満たしています。
+      <b>deep</b> には白文字（成果バッジ・期間ラベル）が載ります。白文字とのコントラスト比が <b>4.5:1 以上</b> に。<b>deep2</b>（見出し文字）も <b>tint・soft・白</b> の各背景に対して 4.5:1 以上を確保します。上の6テーマはすべてこの基準を満たしています。
       <a href="https://webaim.org/resources/contrastchecker/" target="_blank" rel="noopener">WebAIM Contrast Checker</a> で確認できます。
     </p>
   </section>
