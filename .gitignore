@@ -1,3 +1,7 @@
+# 写真の元データ（TIFF）：容量が大きいためGitHubには載せず、ローカルにのみ残す
+*.tif
+*.tiff
+
 # 掲載許可待ち：GitHubには載せず、ローカルにのみ残す
 /case-deloitte-bosai.html
 /images/case-deloitte-bosai.jpg

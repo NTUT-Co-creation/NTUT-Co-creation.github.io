@@ -459,6 +459,8 @@ ul.outcome { padding: 0; }
   color: var(--ink);
 }
 
+.quote + .quote { margin-top: 16px; }
+
 .quote cite {
   display: block;
   margin-top: 8px;
