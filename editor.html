@@ -12,6 +12,7 @@
   }
   *{box-sizing:border-box;}
   body{margin:0;font-family:var(--font);color:var(--ink);background:#f4f4f6;line-height:1.7;}
+
   .topbar{
     position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--line);
     padding:12px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
@@ -26,41 +27,89 @@
     border:0;border-radius:8px;padding:9px 18px;
   }
   .btn-open{background:#eef3f5;color:var(--blue);border:1px solid #cfe0e7;}
+  .btn-new{background:#eef5f0;color:var(--green);border:1px solid #cbe3d5;}
   .btn-save{background:var(--green);color:#fff;}
   .btn-save:disabled{background:#bdbdbd;cursor:not-allowed;}
+  .btn-mini{font-size:12.5px;padding:5px 12px;background:#f0f0f4;color:var(--soft);border:1px solid #dcdce2;}
+  .btn-mini.danger{color:var(--rose);border-color:#eccfd7;background:#fdf5f7;}
   button:focus-visible{outline:3px solid var(--amber);outline-offset:2px;}
+  .dirty-dot{color:var(--rose);font-weight:800;}
 
   .intro{max-width:1180px;margin:0 auto;padding:22px 20px 0;}
   .intro h2{font-size:16px;margin:0 0 6px;}
   .intro ol{margin:0 0 8px;padding-left:1.3em;color:var(--soft);font-size:14px;}
+  .intro .sub-note{display:block;font-size:12.5px;color:var(--soft);margin-top:2px;}
   .intro .note{font-size:12.5px;color:var(--soft);background:#fffdf3;border:1px solid #f0e6c6;
-    border-radius:8px;padding:8px 12px;display:inline-block;}
+    border-radius:8px;padding:8px 12px;display:block;max-width:820px;}
 
-  .layout{max-width:1180px;margin:0 auto;padding:18px 20px 60px;display:grid;
-    grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;}
-  @media(max-width:900px){.layout{grid-template-columns:1fr;}}
+  .layout{max-width:1520px;margin:0 auto;padding:18px 20px 60px;display:grid;
+    grid-template-columns:230px minmax(0,1fr) minmax(0,1fr);gap:18px;}
+  @media(max-width:1100px){.layout{grid-template-columns:1fr;}}
   .pane{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;}
   .pane>.head{padding:10px 16px;border-bottom:1px solid var(--line);font-weight:800;font-size:14px;
     display:flex;align-items:center;gap:8px;}
   .pane>.head .dot{width:10px;height:10px;border-radius:50%;}
-  .form-body{padding:6px 16px 16px;max-height:74vh;overflow:auto;}
-  .field{padding:12px 0;border-bottom:1px solid #f0f0f2;}
+  .form-body{padding:6px 16px 16px;max-height:76vh;overflow:auto;}
+
+  /* 事例一覧 */
+  .list{max-height:76vh;overflow:auto;padding:6px;}
+  .list button{display:block;width:100%;text-align:left;background:none;border:0;border-radius:8px;
+    padding:9px 11px;font-size:13px;font-weight:600;color:var(--ink);line-height:1.45;}
+  .list button:hover{background:#f2f6f8;}
+  .list button.on{background:#e7f1f5;color:var(--blue);}
+  .list .sub{display:block;font-size:11.5px;color:var(--soft);font-weight:500;}
+
+  /* セクション見出し */
+  .sec{margin:18px 0 4px;padding-top:14px;border-top:2px solid #eceff1;
+    font-size:13px;font-weight:800;color:var(--blue);letter-spacing:.04em;}
+  .sec:first-child{border-top:0;padding-top:2px;margin-top:6px;}
+
+  .field{padding:11px 0;border-bottom:1px solid #f0f0f2;}
   .field:last-child{border-bottom:0;}
   .field label{display:block;font-weight:700;font-size:13px;color:var(--blue);margin-bottom:5px;}
-  .field textarea{
+  .field textarea,.field input[type=text],.field input[type=url],.field select{
     width:100%;font-family:var(--font);font-size:14px;line-height:1.7;color:var(--ink);
-    border:1px solid #d6d6dc;border-radius:8px;padding:9px 11px;resize:vertical;
+    border:1px solid #d6d6dc;border-radius:8px;padding:9px 11px;resize:vertical;background:#fff;
   }
-  .field textarea:focus-visible{outline:3px solid var(--amber);outline-offset:1px;border-color:var(--amber);}
-  iframe{width:100%;height:74vh;border:0;display:block;background:#fff;}
+  .field textarea:focus-visible,.field input:focus-visible,.field select:focus-visible{
+    outline:3px solid var(--amber);outline-offset:1px;border-color:var(--amber);}
+  .field .hint{font-size:12px;color:var(--soft);margin-top:4px;}
+
+  /* 写真 */
+  .photo{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:1px solid #f0f0f2;}
+  .photo img{width:132px;height:99px;object-fit:cover;border-radius:8px;border:1px solid var(--line);background:#f7f7f9;flex:none;}
+  .photo .meta{flex:1;min-width:0;}
+  .photo .name{font-size:12px;color:var(--soft);word-break:break-all;margin-bottom:6px;}
+  .photo .row{display:flex;gap:8px;flex-wrap:wrap;}
+  .photo input[type=text]{width:100%;font-family:var(--font);font-size:13px;
+    border:1px solid #d6d6dc;border-radius:8px;padding:7px 10px;margin-bottom:6px;}
+  .drop{margin-top:12px;border:2px dashed #cfd6da;border-radius:10px;padding:20px;text-align:center;
+    color:var(--soft);font-size:13px;background:#fafbfc;}
+  .drop.over{border-color:var(--green);background:#f0f8f3;color:var(--green);}
+
+  /* 関連サイト */
+  .link-row{padding:11px 0;border-bottom:1px solid #f0f0f2;}
+  .link-row input{width:100%;font-family:var(--font);font-size:13px;
+    border:1px solid #d6d6dc;border-radius:8px;padding:7px 10px;margin-bottom:6px;}
+
+  iframe{width:100%;height:76vh;border:0;display:block;background:#fff;}
 
   .empty{padding:60px 24px;text-align:center;color:var(--soft);}
   .empty .big{font-size:40px;margin-bottom:10px;}
   .status{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);
     background:#222;color:#fff;padding:10px 20px;border-radius:999px;font-size:14px;font-weight:700;
-    opacity:0;transition:opacity .25s;pointer-events:none;z-index:9;}
+    opacity:0;transition:opacity .25s;pointer-events:none;z-index:9;max-width:90vw;text-align:center;}
   .status.show{opacity:1;}
+  .status.warn{background:#8a2a3f;}
   .hide{display:none !important;}
+
+  /* 新規作成ダイアログ */
+  dialog{border:0;border-radius:14px;padding:0;max-width:560px;width:92vw;
+    box-shadow:0 18px 50px rgba(0,0,0,.28);}
+  dialog::backdrop{background:rgba(20,20,25,.45);}
+  dialog .dhead{padding:16px 22px;border-bottom:1px solid var(--line);font-weight:800;}
+  dialog .dbody{padding:6px 22px 4px;max-height:66vh;overflow:auto;}
+  dialog .dfoot{padding:14px 22px 20px;display:flex;gap:10px;justify-content:flex-end;}
 </style>
 </head>
 <body>
@@ -70,31 +119,44 @@
     <h1>事例ページ かんたん編集ツール</h1>
     <span class="file" id="fileLabel"></span>
     <span class="spacer"></span>
-    <button class="btn-open" id="openBtn" type="button">事例ファイルを開く…</button>
+    <button class="btn-open" id="openBtn" type="button">ウェブサイトのファイルがある場所を選ぶ…</button>
+    <button class="btn-new hide" id="newBtn" type="button">新しい事例を作る</button>
     <button class="btn-save" id="saveBtn" type="button" disabled>保存する</button>
-    <input type="file" id="fileInput" accept=".html,.htm" class="hide">
   </header>
 
   <main>
-  <div class="intro">
+  <div class="intro" id="intro">
     <h2>使い方</h2>
     <ol>
-      <li>「事例ファイルを開く…」で、編集したい <code>case-◯◯.html</code>（または <code>jma.html</code>）を選びます。</li>
-      <li>左側の入力欄で文章を直すと、右側にすぐ反映されます。HTMLの知識は不要です。</li>
-      <li>「保存する」を押します。<b id="saveModeText">（お使いのブラウザでは元のファイルに上書きされます）</b></li>
+      <li>右上の「ウェブサイトのファイルがある場所を選ぶ…」を押します。</li>
+      <li>ファイルを選ぶ画面が出たら、<b><code>NTUT-Co-creation.github.io</code></b> という名前のフォルダを選んで「開く」を押します。
+        <span class="sub-note">中に <code>index.html</code> という書類と <code>images</code> というフォルダが入っている場所です。</span></li>
+      <li>「編集を許可しますか？」と聞かれたら「許可」を押します。</li>
+      <li>左の一覧から編集したい事例を選び、文章・写真・関連サイトを直します。</li>
+      <li>右のプレビューで確認して「保存する」を押します。</li>
     </ol>
-    <span class="note" id="browserNote">※ 文章の編集だけができます。写真の差し替えやレイアウト変更はできません（必要な時はご相談ください）。</span>
+    <span class="note" id="browserNote">
+      ※ この試作版は、パソコンの中にあるファイルを直接書き換えます。本番用ではフォルダを選ぶ操作はなくなり、
+      ホームページを開いて編集するだけになります。<br>
+      ※ Google Chrome または Microsoft Edge でお使いください（Safari では保存ができません）。<br>
+      ※ 写真は JPEG・PNG を選んでください。長辺1280pxのJPEGに自動変換して保存します。TIFF は扱えません。
+    </span>
   </div>
 
-  <div class="layout">
+  <div class="layout hide" id="layout">
+    <section class="pane" aria-label="事例の一覧">
+      <div class="head"><span class="dot" style="background:var(--amber)"></span>事例を選ぶ</div>
+      <div class="list" id="pageList"></div>
+    </section>
+
     <section class="pane" aria-label="編集フォーム">
-      <div class="head"><span class="dot" style="background:var(--blue)"></span>文章を編集</div>
+      <div class="head"><span class="dot" style="background:var(--blue)"></span>編集</div>
       <div class="form-body" id="formBody">
         <div class="empty" id="emptyForm">
           <div class="big" aria-hidden="true">📝</div>
-          上の「事例ファイルを開く…」から<br>編集したいページを選んでください。
+          左の一覧から<br>編集したい事例を選んでください。
         </div>
-        <form id="form"></form>
+        <div id="form"></div>
       </div>
     </section>
 
@@ -107,91 +169,197 @@
 
   <div class="status" id="status" role="status" aria-live="polite"></div>
 
+  <dialog id="newDlg">
+    <form method="dialog">
+      <div class="dhead">新しい事例ページを作る</div>
+      <div class="dbody" id="newBody"></div>
+      <div class="dfoot">
+        <button class="btn-mini" value="cancel" type="submit">やめる</button>
+        <button class="btn-save" id="newOk" value="ok" type="submit">この内容で作る</button>
+      </div>
+    </form>
+  </dialog>
+
 <script>
 (function(){
   "use strict";
-  const supportsFS = !!window.showOpenFilePicker;
-  let fileHandle = null, fileName = "", doc = null, groups = [];
+
+  const BASE = "https://co-creation.a.tsukuba-tech.ac.jp/";
+  const MAX_EDGE = 1280;          // 写真の長辺（px）
+  const JPEG_QUALITY = 0.84;
+  const SITE_NAME = "筑波技術大学 産学連携プロジェクト";
+
+  // 領域（学科）と配色テーマの対応
+  const DEPTS = [
+    {label:"全領域",             theme:"theme-gray"},
+    {label:"情報系",             theme:"theme-info"},
+    {label:"機械系",             theme:"theme-mech"},
+    {label:"建築学・福祉住環境学", theme:"theme-arch"},
+    {label:"デザイン系",         theme:"theme-design"}
+  ];
 
   const $ = id => document.getElementById(id);
 
-  // ブラウザ対応に応じた案内
-  if(!supportsFS){
-    $("saveModeText").textContent = "（お使いのブラウザでは編集後のファイルがダウンロードされます。元の場所に上書き保存してください）";
+  let rootDir = null;     // サイトのフォルダ
+  let imagesDir = null;   // images フォルダ
+  let cssText = "";       // プレビュー用に読み込んだ styles.css
+  let pages = [];         // [{name, handle, title, partner}]
+  let indexDoc = null, indexDirty = false;
+  let cur = null;         // 編集中ページの状態
+  let previewUrls = [];   // プレビュー用に作った blob URL（後で開放する）
+
+  /* ------------------------------------------------------------------
+     共通
+     ------------------------------------------------------------------ */
+  function showStatus(msg, warn){
+    const s = $("status");
+    s.textContent = msg;
+    s.classList.toggle("warn", !!warn);
+    s.classList.add("show");
+    clearTimeout(showStatus._t);
+    showStatus._t = setTimeout(()=>s.classList.remove("show"), warn ? 6000 : 3200);
+  }
+  function escHtml(t){
+    return String(t).replace(/[&<>]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+  }
+  function escAttr(t){
+    return String(t).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  }
+  function markDirty(){
+    if(!cur) return;
+    cur.dirty = true;
+    $("saveBtn").disabled = false;
+    $("fileLabel").innerHTML = "編集中： " + escHtml(cur.name) + ' <span class="dirty-dot">●未保存</span>';
+  }
+  function markClean(){
+    if(!cur) return;
+    cur.dirty = false;
+    $("saveBtn").disabled = true;
+    $("fileLabel").textContent = "編集中： " + cur.name;
   }
 
-  function showStatus(msg){
-    const s=$("status"); s.textContent=msg; s.classList.add("show");
-    clearTimeout(showStatus._t); showStatus._t=setTimeout(()=>s.classList.remove("show"),3200);
-  }
+  window.addEventListener("beforeunload", e=>{
+    if(cur && cur.dirty){ e.preventDefault(); e.returnValue = ""; }
+  });
 
-  // ---- ファイルを開く ----
+  /* ------------------------------------------------------------------
+     フォルダを開く
+     ------------------------------------------------------------------ */
   $("openBtn").addEventListener("click", async ()=>{
-    if(supportsFS){
-      try{
-        const [h] = await window.showOpenFilePicker({
-          types:[{description:"事例ページ (HTML)",accept:{"text/html":[".html",".htm"]}}]
-        });
-        fileHandle = h;
-        const f = await h.getFile();
-        fileName = f.name;
-        loadText(await f.text());
-      }catch(e){ if(e && e.name!=="AbortError") console.error(e); }
-    }else{
-      $("fileInput").click();
-    }
-  });
-  $("fileInput").addEventListener("change", e=>{
-    const f = e.target.files[0]; if(!f) return;
-    fileHandle = null; fileName = f.name;
-    const r = new FileReader();
-    r.onload = ()=> loadText(r.result);
-    r.readAsText(f, "utf-8");
-  });
-
-  // ---- 読み込み・フォーム生成 ----
-  function loadText(text){
-    doc = new DOMParser().parseFromString(text, "text/html");
-    const els = Array.from(doc.querySelectorAll("[data-edit]"));
-    if(!els.length){
-      showStatus("このファイルには編集できる項目が見つかりませんでした。");
+    if(!window.showDirectoryPicker){
+      showStatus("このブラウザは対応していません。Chrome か Edge でお使いください。", true);
       return;
     }
+    try{
+      rootDir = await window.showDirectoryPicker({mode:"readwrite"});
+    }catch(e){
+      if(e && e.name !== "AbortError") console.error(e);
+      return;
+    }
+    // 選び間違いをその場で知らせる
+    try{
+      await rootDir.getFileHandle("index.html");
+    }catch(e){
+      showStatus("このフォルダはウェブサイトの場所ではないようです（index.html が見つかりません）。"
+        + "「NTUT-Co-creation.github.io」という名前のフォルダを選んでください。", true);
+      rootDir = null; return;
+    }
+    try{
+      imagesDir = await rootDir.getDirectoryHandle("images", {create:true});
+    }catch(e){
+      showStatus("images フォルダを開けませんでした。", true); return;
+    }
+    // プレビュー用に styles.css を読んでおく
+    try{
+      const h = await rootDir.getFileHandle("styles.css");
+      cssText = await (await h.getFile()).text();
+    }catch(e){ cssText = ""; }
+
+    await scanPages();
+    if(!pages.length){
+      showStatus("事例ページ（case-◯◯.html）が見つかりませんでした。フォルダをご確認ください。", true);
+      return;
+    }
+    $("intro").classList.add("hide");
+    $("layout").classList.remove("hide");
+    $("newBtn").classList.remove("hide");
+    renderList();
+    $("fileLabel").textContent = "フォルダ： " + rootDir.name;
+    showStatus("開きました（" + pages.length + "件の事例が見つかりました）");
+  });
+
+  async function scanPages(){
+    pages = [];
+    for await (const [name, handle] of rootDir.entries()){
+      if(handle.kind !== "file") continue;
+      if(!/^case-.*\.html$/.test(name) && name !== "jma.html") continue;
+      const text = await (await handle.getFile()).text();
+      const d = new DOMParser().parseFromString(text, "text/html");
+      pages.push({
+        name, handle,
+        title:  txt(d, '[data-edit="title"]') || name,
+        partner:txt(d, '[data-edit="partner"]') || ""
+      });
+    }
+    pages.sort((a,b)=> a.name.localeCompare(b.name));
+    try{
+      const h = await rootDir.getFileHandle("index.html");
+      indexDoc = new DOMParser().parseFromString(await (await h.getFile()).text(), "text/html");
+      indexDirty = false;
+    }catch(e){ indexDoc = null; }
+  }
+  function txt(d, sel){
+    const el = d.querySelector(sel);
+    return el ? el.textContent.replace(/\s+/g," ").trim() : "";
+  }
+
+  function renderList(){
+    const list = $("pageList");
+    list.innerHTML = "";
+    pages.forEach(p=>{
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = (cur && cur.name === p.name) ? "on" : "";
+      b.innerHTML = escHtml(p.title.slice(0,34)) + '<span class="sub">' + escHtml(p.partner) + "</span>";
+      b.addEventListener("click", ()=> openPage(p));
+      list.append(b);
+    });
+  }
+
+  /* ------------------------------------------------------------------
+     ページを開く
+     ------------------------------------------------------------------ */
+  async function openPage(p){
+    if(cur && cur.dirty && !confirm("保存していない変更があります。破棄して切り替えますか？")) return;
+    const text = await (await p.handle.getFile()).text();
+    const doc = new DOMParser().parseFromString(text, "text/html");
+
+    // data-edit のグループを作る（同じ名前の要素はまとめて同じ値にする）
     const map = new Map();
-    for(const el of els){
+    for(const el of doc.querySelectorAll("[data-edit]")){
       const key = el.getAttribute("data-edit");
-      if(!map.has(key)) map.set(key,{key,label:el.getAttribute("data-label")||key,els:[]});
+      if(!map.has(key)) map.set(key, {key, label: el.getAttribute("data-label") || key, els: []});
       map.get(key).els.push(el);
     }
-    groups = Array.from(map.values());
-    for(const g of groups) g.value = readVal(g.els[0]);
+    const groups = Array.from(map.values());
+    groups.forEach(g => g.value = readVal(g.els[0]));
 
-    $("fileLabel").textContent = "編集中： " + fileName;
+    cur = {
+      name: p.name, handle: p.handle, doc, groups,
+      slug: p.name.replace(/\.html$/, ""),
+      pending: new Map(),   // 保存待ちの画像 name -> Blob
+      dirty: false
+    };
+    markClean();
     $("emptyForm").classList.add("hide");
-    $("saveBtn").disabled = false;
+    renderList();
     renderForm();
     updatePreview();
   }
 
-  function renderForm(){
-    const form = $("form"); form.innerHTML = "";
-    groups.forEach((g,i)=>{
-      const wrap = document.createElement("div"); wrap.className="field";
-      const lab = document.createElement("label"); lab.textContent=g.label; lab.setAttribute("for","f"+i);
-      const ta = document.createElement("textarea"); ta.id="f"+i; ta.value=g.value;
-      ta.rows = Math.min(7, Math.max(2, Math.ceil((g.value.length+1)/34)));
-      ta.addEventListener("input", ()=>{ g.value=ta.value; applyGroup(g); updatePreview(); });
-      wrap.append(lab, ta); form.append(wrap);
-    });
-  }
-
-  function escHtml(t){ return t.replace(/[&<>]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c])); }
-
-  // 要素の中身を編集欄用テキストに変換
-  //  data-rich="emph" … <b>強調</b> を [強調] で表す
-  //  data-ml         … 改行 <br> を実際の改行で表す
+  /* ---- data-edit の読み書き（旧ツールの仕様をそのまま踏襲） ---- */
   function readVal(el){
-    if(el.getAttribute("data-rich")==="emph"){
+    if(el.getAttribute("data-rich") === "emph"){
       return el.innerHTML
         .replace(/<b[^>]*>(.*?)<\/b>/gi, "[$1]")
         .replace(/<[^>]+>/g, "")
@@ -207,21 +375,20 @@
     return el.textContent.replace(/\s+/g," ").trim();
   }
   function setVal(el, v){
-    if(el.getAttribute("data-rich")==="emph"){
-      let n=0;
+    if(el.getAttribute("data-rich") === "emph"){
+      let n = 0;
       el.innerHTML = escHtml(v).replace(/\[(.+?)\]/g, (m,w)=>{
-        n++; return '<b class="c'+(((n-1)%3)+1)+'">'+w+'</b>';
+        n++; return '<b class="c' + (((n-1)%3)+1) + '">' + w + "</b>";
       });
     } else if(el.hasAttribute("data-ml")){
-      el.innerHTML = escHtml(v).replace(/\n/g,"<br>");
+      el.innerHTML = escHtml(v).replace(/\n/g, "<br>");
     } else {
       el.textContent = v;
     }
   }
-
   function applyGroup(g){
     for(const el of g.els) setVal(el, g.value);
-    if(g.key.indexOf("caption")===0){          // キャプションは画像のaltも同期
+    if(g.key.indexOf("caption") === 0){        // キャプションは画像の代替テキストにも反映
       for(const el of g.els){
         const fig = el.closest("figure");
         const img = fig && fig.querySelector("img");
@@ -230,33 +397,557 @@
     }
   }
 
-  function serialize(){
-    return "<!DOCTYPE html>\n" + doc.documentElement.outerHTML;
+  /* ------------------------------------------------------------------
+     編集フォーム
+     ------------------------------------------------------------------ */
+  function renderForm(){
+    const form = $("form");
+    form.innerHTML = "";
+
+    sec(form, "文章");
+    cur.groups.forEach((g,i)=>{
+      const wrap = document.createElement("div"); wrap.className = "field";
+      const lab = document.createElement("label"); lab.textContent = g.label; lab.setAttribute("for","f"+i);
+      const ta = document.createElement("textarea"); ta.id = "f"+i; ta.value = g.value;
+      ta.rows = Math.min(8, Math.max(2, Math.ceil((g.value.length+1)/34)));
+      ta.addEventListener("input", ()=>{
+        g.value = ta.value; applyGroup(g); markDirty(); updatePreview();
+      });
+      wrap.append(lab, ta); form.append(wrap);
+    });
+
+    sec(form, "写真");
+    renderPhotos(form);
+
+    sec(form, "関連サイト");
+    renderLinks(form);
   }
-  function updatePreview(){
-    $("preview").srcdoc = serialize();
+  function sec(parent, title){
+    const h = document.createElement("div");
+    h.className = "sec"; h.textContent = title;
+    parent.append(h);
   }
 
-  // ---- 保存 ----
+  /* ---- 写真 ---- */
+  function heroImg(){
+    const f = cur.doc.querySelector(".hero figure img");
+    return f || cur.doc.querySelector(".hero img");
+  }
+  function galleryEl(){
+    for(const s of cur.doc.querySelectorAll("section.section")){
+      const h = s.querySelector(".section__title");
+      if(h && h.textContent.trim() === "活動の写真") return s.querySelector(".gallery");
+    }
+    return null;
+  }
+  function ensureGallery(){
+    let g = galleryEl();
+    if(g) return g;
+    const d = cur.doc;
+    const sect = d.createElement("section");
+    sect.className = "section";
+    sect.innerHTML = '<h2 class="section__title">活動の写真</h2><div class="gallery"></div>';
+    const body = d.querySelector(".case-body");
+    if(body) body.append(sect); else d.querySelector(".case-main").append(sect);
+    return sect.querySelector(".gallery");
+  }
+
+  function renderPhotos(form){
+    const hero = heroImg();
+    if(hero){
+      form.append(photoRow({
+        img: hero,
+        label: "トップの写真",
+        onPick: file => setPhoto(file, hero, true),
+        onDelete: null
+      }));
+    }
+    const gal = galleryEl();
+    const items = gal ? Array.from(gal.querySelectorAll("figure")) : [];
+    items.forEach((fig, i)=>{
+      const img = fig.querySelector("img");
+      if(!img) return;
+      form.append(photoRow({
+        img,
+        label: "ページ内の写真 " + (i+1),
+        onPick: file => setPhoto(file, img, false),
+        onDelete: ()=>{ fig.remove(); markDirty(); renderForm(); updatePreview(); }
+      }));
+    });
+
+    // 追加用のドロップ領域
+    const drop = document.createElement("div");
+    drop.className = "drop";
+    drop.innerHTML = "ここに写真をドラッグ＆ドロップ、または<br>" +
+                     '<button class="btn-mini" type="button" id="addPhotoBtn" style="margin-top:8px">写真を追加する</button>';
+    form.append(drop);
+
+    drop.querySelector("#addPhotoBtn").addEventListener("click", ()=> pickFile(f => addGalleryPhoto(f)));
+    ;["dragenter","dragover"].forEach(ev => drop.addEventListener(ev, e=>{
+      e.preventDefault(); drop.classList.add("over");
+    }));
+    ;["dragleave","drop"].forEach(ev => drop.addEventListener(ev, e=>{
+      e.preventDefault(); drop.classList.remove("over");
+    }));
+    drop.addEventListener("drop", e=>{
+      const files = Array.from(e.dataTransfer.files || []);
+      files.forEach(f => addGalleryPhoto(f));
+    });
+  }
+
+  function photoRow(opt){
+    const row = document.createElement("div");
+    row.className = "photo";
+    const src = opt.img.getAttribute("src") || "";
+    const thumb = document.createElement("img");
+    thumb.alt = "";
+    resolveImageUrl(src).then(u => { if(u) thumb.src = u; });
+
+    const meta = document.createElement("div");
+    meta.className = "meta";
+
+    const name = document.createElement("div");
+    name.className = "name";
+    name.textContent = opt.label + "： " + src.replace(/^images\//, "");
+
+    const alt = document.createElement("input");
+    alt.type = "text";
+    alt.placeholder = "写真の説明（目の不自由な方に読み上げられます）";
+    alt.value = opt.img.getAttribute("alt") || "";
+    alt.addEventListener("input", ()=>{
+      opt.img.setAttribute("alt", alt.value); markDirty(); updatePreview();
+    });
+
+    const btns = document.createElement("div");
+    btns.className = "row";
+    const pick = document.createElement("button");
+    pick.type = "button"; pick.className = "btn-mini"; pick.textContent = "写真を差し替える";
+    pick.addEventListener("click", ()=> pickFile(opt.onPick));
+    btns.append(pick);
+    if(opt.onDelete){
+      const del = document.createElement("button");
+      del.type = "button"; del.className = "btn-mini danger"; del.textContent = "この写真を消す";
+      del.addEventListener("click", ()=>{
+        if(confirm("この写真をページから外します。よろしいですか？")) opt.onDelete();
+      });
+      btns.append(del);
+    }
+
+    meta.append(name, alt, btns);
+    row.append(thumb, meta);
+    return row;
+  }
+
+  function pickFile(cb){
+    const inp = document.createElement("input");
+    inp.type = "file"; inp.accept = "image/jpeg,image/png,image/webp";
+    inp.addEventListener("change", ()=>{ if(inp.files[0]) cb(inp.files[0]); });
+    inp.click();
+  }
+
+  // 画像を長辺1280pxのJPEGに変換する
+  async function toWebJpeg(file){
+    if(/\.tiff?$/i.test(file.name) || file.type === "image/tiff"){
+      throw new Error("TIFF形式の写真はこのツールでは扱えません。JPEGに書き出してからお試しください。");
+    }
+    const url = URL.createObjectURL(file);
+    try{
+      const img = await new Promise((res, rej)=>{
+        const im = new Image();
+        im.onload = ()=> res(im);
+        im.onerror = ()=> rej(new Error("この形式の写真は読み込めませんでした。JPEGかPNGをお使いください。"));
+        im.src = url;
+      });
+      const scale = Math.min(1, MAX_EDGE / Math.max(img.naturalWidth, img.naturalHeight));
+      const w = Math.round(img.naturalWidth * scale);
+      const h = Math.round(img.naturalHeight * scale);
+      const cv = document.createElement("canvas");
+      cv.width = w; cv.height = h;
+      const ctx = cv.getContext("2d");
+      ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, w, h);   // 透過PNG対策
+      ctx.drawImage(img, 0, 0, w, h);
+      return await new Promise(res => cv.toBlob(res, "image/jpeg", JPEG_QUALITY));
+    } finally {
+      URL.revokeObjectURL(url);
+    }
+  }
+
+  // 既存の写真を差し替える
+  async function setPhoto(file, imgEl, isHero){
+    let blob;
+    try{ blob = await toWebJpeg(file); }
+    catch(e){ showStatus(e.message, true); return; }
+
+    const name = isHero ? (cur.slug + ".jpg") : nextGalleryName();
+    cur.pending.set(name, blob);
+    imgEl.setAttribute("src", "images/" + name);
+    if(isHero){
+      const og = cur.doc.querySelector('meta[property="og:image"]');
+      if(og) og.setAttribute("content", BASE + "images/" + name);
+    }
+    markDirty(); renderForm(); updatePreview();
+    showStatus("写真を読み込みました（保存するとファイルに書き込まれます）");
+  }
+
+  // ページ内の写真を追加する
+  async function addGalleryPhoto(file){
+    let blob;
+    try{ blob = await toWebJpeg(file); }
+    catch(e){ showStatus(e.message, true); return; }
+
+    const name = nextGalleryName();
+    cur.pending.set(name, blob);
+    const gal = ensureGallery();
+    const fig = cur.doc.createElement("figure");
+    const im = cur.doc.createElement("img");
+    im.setAttribute("loading", "lazy");
+    im.setAttribute("src", "images/" + name);
+    im.setAttribute("alt", "");
+    fig.append(im);
+    gal.append(fig);
+    markDirty(); renderForm(); updatePreview();
+    showStatus("写真を追加しました（説明文もご記入ください）");
+  }
+
+  // images/<slug>-2.jpg, -3.jpg … の空き番号を探す
+  function nextGalleryName(){
+    const used = new Set();
+    cur.doc.querySelectorAll("img").forEach(im=>{
+      const m = (im.getAttribute("src")||"").match(/^images\/(.+)$/);
+      if(m) used.add(m[1]);
+    });
+    for(const k of cur.pending.keys()) used.add(k);
+    let n = 2;
+    while(used.has(cur.slug + "-" + n + ".jpg")) n++;
+    return cur.slug + "-" + n + ".jpg";
+  }
+
+  /* ---- 関連サイト ---- */
+  function relatedUl(){
+    for(const s of cur.doc.querySelectorAll("section.section")){
+      const h = s.querySelector(".section__title");
+      if(h && h.textContent.trim() === "関連サイト") return s.querySelector("ul.related");
+    }
+    return null;
+  }
+  function ensureRelated(){
+    let ul = relatedUl();
+    if(ul) return ul;
+    const d = cur.doc;
+    const sect = d.createElement("section");
+    sect.className = "section";
+    sect.innerHTML = '<h2 class="section__title">関連サイト</h2><ul class="related"></ul>';
+    const gal = galleryEl();
+    const galSec = gal ? gal.closest("section.section") : null;
+    const body = d.querySelector(".case-body");
+    if(galSec) galSec.before(sect);
+    else if(body) body.append(sect);
+    return sect.querySelector("ul.related");
+  }
+
+  function renderLinks(form){
+    const ul = relatedUl();
+    const items = ul ? Array.from(ul.querySelectorAll("li")) : [];
+    items.forEach((li, i)=>{
+      const a = li.querySelector("a");
+      if(!a) return;
+      const row = document.createElement("div");
+      row.className = "link-row";
+
+      const nameIn = document.createElement("input");
+      nameIn.type = "text";
+      nameIn.placeholder = "リンクの名前（例：2025 GOOD DESIGN AWARD 受賞ページ）";
+      nameIn.value = a.textContent.replace(/\s*↗\s*$/, "").trim();
+
+      const urlIn = document.createElement("input");
+      urlIn.type = "url";
+      urlIn.placeholder = "https://…";
+      urlIn.value = a.getAttribute("href") || "";
+
+      function apply(){
+        a.innerHTML = escHtml(nameIn.value) + '<span aria-hidden="true"> ↗</span>';
+        a.setAttribute("href", urlIn.value);
+        markDirty(); updatePreview();
+      }
+      nameIn.addEventListener("input", apply);
+      urlIn.addEventListener("input", apply);
+
+      const del = document.createElement("button");
+      del.type = "button"; del.className = "btn-mini danger"; del.textContent = "このリンクを消す";
+      del.addEventListener("click", ()=>{
+        li.remove(); markDirty(); renderForm(); updatePreview();
+      });
+
+      row.append(nameIn, urlIn, del);
+      form.append(row);
+    });
+
+    const add = document.createElement("button");
+    add.type = "button"; add.className = "btn-mini"; add.textContent = "リンクを追加する";
+    add.style.marginTop = "10px";
+    add.addEventListener("click", ()=>{
+      const ul2 = ensureRelated();
+      const n = ul2.querySelectorAll("li").length + 1;
+      const li = cur.doc.createElement("li");
+      li.innerHTML = '<a data-edit="link-' + n + '" data-label="関連サイト名' + n + '" href="" ' +
+                     'rel="noopener" target="_blank">新しいリンク<span aria-hidden="true"> ↗</span></a>';
+      ul2.append(li);
+      markDirty(); renderForm(); updatePreview();
+    });
+    form.append(add);
+  }
+
+  /* ------------------------------------------------------------------
+     プレビュー
+     ------------------------------------------------------------------ */
+  async function resolveImageUrl(src){
+    const m = (src || "").match(/^images\/(.+)$/);
+    if(!m) return null;
+    const name = m[1];
+    if(cur && cur.pending.has(name)) return URL.createObjectURL(cur.pending.get(name));
+    try{
+      const h = await imagesDir.getFileHandle(name);
+      return URL.createObjectURL(await h.getFile());
+    }catch(e){ return null; }
+  }
+
+  let previewTimer = null;
+  function updatePreview(){
+    clearTimeout(previewTimer);
+    previewTimer = setTimeout(doPreview, 180);
+  }
+  async function doPreview(){
+    if(!cur) return;
+    previewUrls.forEach(u => URL.revokeObjectURL(u));
+    previewUrls = [];
+
+    const clone = cur.doc.cloneNode(true);
+    // styles.css は読み込めないので中身を直接埋め込む
+    const link = clone.querySelector('link[href="styles.css"]');
+    if(link && cssText){
+      const st = clone.createElement("style");
+      st.textContent = cssText;
+      link.replaceWith(st);
+    }
+    // 画像は blob URL に置き換える
+    const imgs = Array.from(clone.querySelectorAll("img"));
+    await Promise.all(imgs.map(async im=>{
+      const u = await resolveImageUrl(im.getAttribute("src"));
+      if(u){ previewUrls.push(u); im.setAttribute("src", u); }
+    }));
+    $("preview").srcdoc = serializeDoc(clone);
+  }
+
+  /* ------------------------------------------------------------------
+     保存
+     ------------------------------------------------------------------ */
+  // HTMLの書き出しは必ずここを通す（保存と「書式をそろえる」で結果を一致させる）
+  function serializeDoc(d){
+    return "<!DOCTYPE html>\n" + d.documentElement.outerHTML;
+  }
+
+  async function writeFile(dir, name, data){
+    const h = await dir.getFileHandle(name, {create:true});
+    const w = await h.createWritable();
+    await w.write(data);
+    await w.close();
+  }
+
   $("saveBtn").addEventListener("click", async ()=>{
-    if(!doc) return;
-    groups.forEach(applyGroup);
-    const html = serialize();
-    if(fileHandle && fileHandle.createWritable){
-      try{
-        const w = await fileHandle.createWritable();
-        await w.write(html); await w.close();
-        showStatus("保存しました（元のファイルを上書きしました）");
-      }catch(e){ console.error(e); showStatus("保存できませんでした。権限をご確認ください。"); }
-    }else{
-      const blob = new Blob([html], {type:"text/html;charset=utf-8"});
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob); a.download = fileName || "case.html";
-      document.body.appendChild(a); a.click(); a.remove();
-      setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
-      showStatus("ダウンロードしました。元の場所に上書き保存してください。");
+    if(!cur) return;
+    try{
+      cur.groups.forEach(applyGroup);
+      for(const [name, blob] of cur.pending) await writeFile(imagesDir, name, blob);
+      await writeFile(rootDir, cur.name, serializeDoc(cur.doc));
+      if(indexDoc && indexDirty){
+        await writeFile(rootDir, "index.html", serializeDoc(indexDoc));
+        indexDirty = false;
+      }
+      const n = cur.pending.size;
+      cur.pending.clear();
+      markClean();
+      showStatus("保存しました" + (n ? "（写真 " + n + "枚も保存しました）" : ""));
+    }catch(e){
+      console.error(e);
+      showStatus("保存できませんでした：" + e.message, true);
     }
   });
+
+  /* ------------------------------------------------------------------
+     新しい事例ページを作る
+     ------------------------------------------------------------------ */
+  $("newBtn").addEventListener("click", ()=>{
+    const body = $("newBody");
+    body.innerHTML =
+      fieldHtml("新しいページのファイル名", "slug", "text", "case-例：case-tsukuba-shelter",
+                "半角の英小文字・数字・ハイフンのみ。あとから変えられないのでご注意ください。") +
+      fieldHtml("タイトル（プロジェクト名）", "title", "text", "", "") +
+      fieldHtml("連携先名", "partner", "text", "", "") +
+      fieldHtml("期間", "period", "text", "例：2025年4月〜", "") +
+      '<div class="field"><label for="nf-dept">領域（学科）</label><select id="nf-dept">' +
+      DEPTS.map(d => '<option value="' + d.theme + '">' + d.label + "</option>").join("") +
+      '</select><div class="hint">トップページのカードの色に反映されます。</div></div>';
+    $("newDlg").showModal();
+  });
+  function fieldHtml(label, id, type, ph, hint){
+    return '<div class="field"><label for="nf-' + id + '">' + label + "</label>" +
+           '<input type="' + type + '" id="nf-' + id + '" placeholder="' + escAttr(ph) + '">' +
+           (hint ? '<div class="hint">' + hint + "</div>" : "") + "</div>";
+  }
+
+  $("newDlg").addEventListener("close", async ()=>{
+    if($("newDlg").returnValue !== "ok") return;
+    const slug    = ($("nf-slug").value || "").trim().toLowerCase();
+    const title   = ($("nf-title").value || "").trim();
+    const partner = ($("nf-partner").value || "").trim();
+    const period  = ($("nf-period").value || "").trim();
+    const theme   = $("nf-dept").value;
+    const dept    = (DEPTS.find(d => d.theme === theme) || DEPTS[0]).label;
+
+    if(!/^[a-z0-9-]+$/.test(slug)){
+      showStatus("ファイル名は半角の英小文字・数字・ハイフンで入れてください。", true); return;
+    }
+    if(!title || !partner){
+      showStatus("タイトルと連携先名は必ず入れてください。", true); return;
+    }
+    const fileName = slug + ".html";
+    if(pages.some(p => p.name === fileName)){
+      showStatus("同じ名前のページがすでにあります。", true); return;
+    }
+    try{
+      await writeFile(rootDir, fileName, newCaseHtml({slug, title, partner, period, dept, theme}));
+      addIndexCard({slug, title, partner, dept, theme});
+      if(indexDoc){
+        await writeFile(rootDir, "index.html", serializeDoc(indexDoc));
+        indexDirty = false;
+      }
+      await scanPages();
+      renderList();
+      const p = pages.find(x => x.name === fileName);
+      if(p) await openPage(p);
+      showStatus("新しい事例ページを作りました。写真と文章を入れてください。");
+    }catch(e){
+      console.error(e);
+      showStatus("作成できませんでした：" + e.message, true);
+    }
+  });
+
+  // トップページのカード一覧に1件追加する
+  function addIndexCard(o){
+    if(!indexDoc) return;
+    const grid = indexDoc.querySelector(".case-grid");
+    if(!grid) return;
+    let max = 0;
+    indexDoc.querySelectorAll("[data-edit]").forEach(el=>{
+      const m = (el.getAttribute("data-edit") || "").match(/^card-(\d+)-/);
+      if(m) max = Math.max(max, parseInt(m[1], 10));
+    });
+    const n = max + 1;
+    const a = indexDoc.createElement("a");
+    a.className = "bcard " + o.theme;
+    a.setAttribute("href", o.slug + ".html");
+    a.innerHTML =
+      '<span class="bcard__thumb"><img alt="" src="images/' + escAttr(o.slug) + '.jpg"></span>' +
+      '<span aria-hidden="true" class="bcard__bar"></span>' +
+      '<span class="bcard__body">' +
+      '<span class="bcard__tag" data-edit="card-' + n + '-tag" data-label="事例「' + escAttr(o.partner) + '」: 領域タグ">' + escHtml(o.dept) + "</span>" +
+      '<span class="bcard__title" data-edit="card-' + n + '-title" data-label="事例: タイトル（プロジェクト名）">' + escHtml(o.title) + "</span>" +
+      '<span class="bcard__desc" data-edit="card-' + n + '-desc" data-label="事例: 連携先名（サブタイトル）">' + escHtml(o.partner) + "</span>" +
+      '<span class="bcard__more">詳しく見る →</span>' +
+      "</span>";
+    grid.append(a);
+    indexDirty = true;
+  }
+
+  // 事例ページの雛形
+  function newCaseHtml(o){
+    const t = escHtml(o.title), p = escHtml(o.partner);
+    const pageTitle = t + "｜" + p + "｜筑波技術大学";
+    const desc = t + "（" + p + "）。筑波技術大学 産学連携プロジェクト事例。";
+    const url = BASE + o.slug + ".html";
+    const img = BASE + "images/" + o.slug + ".jpg";
+    return [
+'<!DOCTYPE html>',
+'',
+'<html lang="ja">',
+'<head>',
+'<meta charset="utf-8"/>',
+'<meta content="width=device-width, initial-scale=1.0" name="viewport"/>',
+'<title>' + pageTitle + '</title>',
+'<meta content="' + escAttr(desc) + '" name="description"/>',
+'<link href="styles.css" rel="stylesheet"/>',
+'<!-- OGP（SNS等でURLを貼ったときのサムネイル表示用） -->',
+'<meta content="article" property="og:type"/>',
+'<meta content="' + escAttr(url) + '" property="og:url"/>',
+'<meta content="' + escAttr(pageTitle) + '" property="og:title"/>',
+'<meta content="' + escAttr(desc) + '" property="og:description"/>',
+'<meta content="' + escAttr(img) + '" property="og:image"/>',
+'<meta content="' + SITE_NAME + '" property="og:site_name"/>',
+'<meta content="ja_JP" property="og:locale"/>',
+'<meta content="summary_large_image" name="twitter:card"/>',
+'</head>',
+'<body class="' + o.theme + '">',
+'<div class="sheet">',
+'<header class="case-header">',
+'<p class="case-header__eyebrow">',
+'<span class="dept" data-edit="dept" data-label="領域（学科）">' + escHtml(o.dept) + '</span>',
+'<span class="tag">産学連携プロジェクト事例</span>',
+'</p>',
+'<h1 class="case-header__partner" data-edit="title" data-label="タイトル（プロジェクト名）">' + t + '</h1>',
+'<p class="case-header__sub" data-edit="partner" data-label="サブタイトル（連携先名）">' + p + '</p>',
+'<span class="case-header__period" data-edit="period" data-label="期間">' + escHtml(o.period) + '</span>',
+'</header>',
+'<main class="case-main">',
+'<section class="hero">',
+'<figure class="figure">',
+'<img alt="" src="images/' + o.slug + '.jpg"/>',
+'<figcaption data-edit="caption" data-label="写真キャプション">写真の説明を入れてください</figcaption>',
+'</figure>',
+'</section>',
+'<div class="case-body">',
+'<section class="section">',
+'<h2 class="section__title">取り組みの概要</h2>',
+'<p data-edit="detail-1" data-label="概要（段落1）">ここに取り組みの概要を書いてください。</p>',
+'<p data-edit="detail-2" data-label="概要（段落2）">続きがあればここに書いてください。</p>',
+'</section>',
+'<dl aria-label="連携の基本情報" class="facts">',
+'<dt>連携先</dt><dd data-edit="partner" data-label="連携先">' + p + '</dd>',
+'<dt>期間</dt><dd data-edit="period" data-label="期間">' + escHtml(o.period) + '</dd>',
+'<dt>関わった学生の領域</dt><dd data-edit="dept" data-label="関わった学生の領域">' + escHtml(o.dept) + '</dd>',
+'<dt>主体教員</dt><dd data-edit="teacher" data-label="主体教員">担当教員名</dd>',
+'<dt>学生の関わり方</dt><dd data-edit="kakawari" data-label="学生の関わり方">授業として（学部◯年生）</dd>',
+'</dl>',
+'<section class="section">',
+'<h2 class="section__title">学生の学びと関わり</h2>',
+'<div class="cards">',
+'<div class="card"><h3>学生の学び</h3><p data-edit="manabi" data-label="学生の学び">学生が何を学んだかを書いてください。</p></div>',
+'<div class="card"><h3>学生の役目</h3><p data-edit="yakume" data-label="学生の役目">学生が担った役割を書いてください。</p></div>',
+'<div class="card"><h3>学生に求められた専門性</h3><p data-edit="senmon" data-label="学生に求められた専門性">求められた専門性を書いてください。</p></div>',
+'</div>',
+'</section>',
+'<section class="section">',
+'<h2 class="section__title">連携先にとっての価値</h2>',
+'<p data-edit="merit" data-label="連携先にとっての価値">連携先にとっての価値を書いてください。</p>',
+'</section>',
+'<section class="section">',
+'<h2 class="section__title">連携先担当者の評価</h2>',
+'<blockquote class="quote quote--pending"><span data-edit="evaluation" data-label="担当者の評価">※ コメントは掲載準備中です。</span><cite data-edit="evaluation_by" data-label="評価者">' + p + ' ご担当者</cite></blockquote>',
+'</section>',
+'</div>',
+'</main>',
+'<footer class="case-footer">',
+'<div class="case-footer__inner">',
+'<p class="org">筑波技術大学　産学連携プロジェクト</p>',
+'<p>本ページは、パンフレット掲載事例の詳細版です。掲載内容は連携当時のものを含みます。</p>',
+'<p class="copyright">©︎ 2026 Local Commons Inc.</p>',
+'</div>',
+'</footer>',
+'</div>',
+'</body>',
+'</html>'
+    ].join("\n");
+  }
+
 })();
 </script>
 </body>
