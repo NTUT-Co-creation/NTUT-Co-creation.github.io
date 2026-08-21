@@ -1,0 +1,5 @@
+#!/bin/zsh
+# Dock から起動するための入れ物。同じ tools フォルダの サイト同期.command を
+# ターミナルで開くだけの役割。
+TOOLS="$(cd "$(dirname "$0")/../../.." && pwd)"
+open -a Terminal "$TOOLS/サイト同期.command"
