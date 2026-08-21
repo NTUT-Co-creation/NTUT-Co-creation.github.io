@@ -7,5 +7,6 @@
 
 exclude:
   - editor.html        # 教員向け 編集ツール（ローカル専用）
+  - tools/             # 管理者用のツールと手順書（サイトとしては配信しない）
   - style-guide.html   # デザインシステムの内部資料
   - README.md
