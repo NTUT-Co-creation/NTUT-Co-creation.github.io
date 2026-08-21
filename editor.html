@@ -38,6 +38,15 @@
   .intro{max-width:1180px;margin:0 auto;padding:22px 20px 0;}
   .intro h2{font-size:16px;margin:0 0 6px;}
   .intro ol{margin:0 0 8px;padding-left:1.3em;color:var(--soft);font-size:14px;}
+  .pickbox{max-width:820px;background:#eef5f9;border:1px solid #cfe0e7;border-radius:10px;
+    padding:14px 18px;margin:0 0 12px;}
+  .pickbox__label{font-size:12px;font-weight:800;color:var(--blue);letter-spacing:.06em;}
+  .pickbox__name{font-size:19px;font-weight:800;margin:2px 0 2px;}
+  .pickbox__where{font-size:14px;color:var(--ink);}
+  .pickbox__more{margin-top:10px;font-size:13px;color:var(--soft);}
+  .pickbox__more summary{cursor:pointer;color:var(--blue);font-weight:700;}
+  .pickbox__help{margin:8px 0;line-height:1.8;}
+  .pickbox__help code{background:#fff;border:1px solid #cfe0e7;padding:1px 6px;border-radius:4px;}
   .intro .sub-note{display:block;font-size:12.5px;color:var(--soft);margin-top:2px;}
   .intro .note{font-size:12.5px;color:var(--soft);background:#fffdf3;border:1px solid #f0e6c6;
     border-radius:8px;padding:8px 12px;display:block;max-width:820px;}
@@ -119,7 +128,7 @@
     <h1>事例ページ かんたん編集ツール</h1>
     <span class="file" id="fileLabel"></span>
     <span class="spacer"></span>
-    <button class="btn-open" id="openBtn" type="button">ウェブサイトのファイルがある場所を選ぶ…</button>
+    <button class="btn-open" id="openBtn" type="button">編集をはじめる</button>
     <button class="btn-new hide" id="newBtn" type="button">新しい事例を作る</button>
     <button class="btn-save" id="saveBtn" type="button" disabled>保存する</button>
   </header>
@@ -128,13 +137,23 @@
   <div class="intro" id="intro">
     <h2>使い方</h2>
     <ol>
-      <li>右上の「ウェブサイトのファイルがある場所を選ぶ…」を押します。</li>
-      <li>ファイルを選ぶ画面が出たら、<b><code>NTUT-Co-creation.github.io</code></b> という名前のフォルダを選んで「開く」を押します。
-        <span class="sub-note">中に <code>index.html</code> という書類と <code>images</code> というフォルダが入っている場所です。</span></li>
-      <li>「編集を許可しますか？」と聞かれたら「許可」を押します。</li>
+      <li>右上の「編集をはじめる」を押します。</li>
+      <li>初回だけ、フォルダを選ぶ画面が出ます。<b>下に表示されているフォルダ</b>を選んで「開く」を押し、
+        続けて「編集を許可」を押してください。
+        <span class="sub-note">ブラウザの決まりで、最初の1回だけ許可が必要です。次回からは押すだけで開きます。</span></li>
       <li>左の一覧から編集したい事例を選び、文章・写真・関連サイトを直します。</li>
       <li>右のプレビューで確認して「保存する」を押します。</li>
     </ol>
+    <div class="pickbox hide" id="pickBox">
+      <div class="pickbox__label">選ぶフォルダ</div>
+      <div class="pickbox__name" id="folderName"></div>
+      <div class="pickbox__where" id="folderWhere"></div>
+      <details class="pickbox__more">
+        <summary>フォルダが見つからないとき</summary>
+        <div class="pickbox__help" id="folderHelp"></div>
+        <button class="btn-mini" id="copyPath" type="button">場所をコピー</button>
+      </details>
+    </div>
     <span class="note" id="browserNote">
       ※ この試作版は、パソコンの中にあるファイルを直接書き換えます。本番用ではフォルダを選ぶ操作はなくなり、
       ホームページを開いて編集するだけになります。<br>
@@ -245,31 +264,145 @@
   /* ------------------------------------------------------------------
      フォルダを開く
      ------------------------------------------------------------------ */
+  /* ---- このツール自身が置かれている場所を割り出して案内する ---- */
+  function selfFolder(){
+    if(location.protocol !== "file:") return null;
+    try{
+      const parts = decodeURIComponent(location.pathname).split("/").filter(Boolean);
+      parts.pop();                                   // editor.html を除く
+      const name = parts[parts.length-1] || "";
+      // OneDrive の同期フォルダに置かれている場合は、その名前も拾う
+      const drive = parts.slice().reverse().find(x => /^OneDrive/i.test(x)) || "";
+      return {name, drive, path: "/" + parts.join("/")};
+    }catch(e){ return null; }
+  }
+
+  const IS_MAC = /Mac|iPhone|iPad/.test(navigator.platform || "") ||
+                 /Macintosh/.test(navigator.userAgent || "");
+  const FILER  = IS_MAC ? "Finder" : "エクスプローラー";
+
+  const SELF = selfFolder();
+  if(SELF){
+    $("folderName").textContent = "📁 " + SELF.name;
+    $("folderWhere").textContent = SELF.drive
+      ? FILER + " の左側にある「" + SELF.drive + "」の中に入っています。"
+      : "このツールと同じ場所にあります。";
+
+    $("folderHelp").innerHTML = IS_MAC
+      ? "下のボタンで場所をコピーし、フォルダを選ぶ画面で <code>⌘ + Shift + G</code> を押して"
+        + "貼り付け（<code>⌘ + V</code>）、<code>Enter</code> を押すと直接移動できます。"
+      : "下のボタンで場所をコピーし、フォルダを選ぶ画面の上にある"
+        + "<b>ファイル名の入力欄</b>に貼り付け（<code>Ctrl + V</code>）、<code>Enter</code> を押すと直接移動できます。";
+
+    $("pickBox").classList.remove("hide");
+    $("copyPath").addEventListener("click", async ()=>{
+      // Windows では区切りを ¥ 形式にしておく
+      const text = IS_MAC ? SELF.path : SELF.path.replace(/^\//, "").replace(/\//g, "\\");
+      try{
+        await navigator.clipboard.writeText(text);
+        showStatus("場所をコピーしました。フォルダを選ぶ画面で貼り付けてください。");
+      }catch(e){
+        showStatus("コピーできませんでした。" + FILER + "から探してください。", true);
+      }
+    });
+  }
+
+  /* ---- 一度許可したフォルダを覚えておく（次回から選び直さずに済む） ---- */
+  const DB_NAME = "ntut-editor", STORE = "handles", KEY = "rootDir";
+  function idb(){
+    return new Promise((res, rej)=>{
+      let req;
+      try{ req = indexedDB.open(DB_NAME, 1); }
+      catch(e){ rej(e); return; }
+      if(!req){ rej(new Error("indexedDB unavailable")); return; }
+      req.onupgradeneeded = ()=> req.result.createObjectStore(STORE);
+      req.onsuccess = ()=> res(req.result);
+      req.onerror = ()=> rej(req.error);
+    });
+  }
+  async function rememberDir(handle){
+    try{
+      const db = await idb();
+      await new Promise((res, rej)=>{
+        const tx = db.transaction(STORE, "readwrite");
+        tx.objectStore(STORE).put(handle, KEY);
+        tx.oncomplete = res; tx.onerror = ()=> rej(tx.error);
+      });
+    }catch(e){ /* 使えない環境では毎回選んでもらう */ }
+  }
+  async function recallDir(){
+    try{
+      const db = await idb();
+      return await new Promise((res, rej)=>{
+        const tx = db.transaction(STORE, "readonly");
+        const rq = tx.objectStore(STORE).get(KEY);
+        rq.onsuccess = ()=> res(rq.result || null);
+        rq.onerror = ()=> rej(rq.error);
+      });
+    }catch(e){ return null; }
+  }
+
+  // 起動時：前回のフォルダが使えるならそのまま開く
+  (async function restore(){
+    if(!window.showDirectoryPicker) return;
+    const h = await recallDir();
+    if(!h) return;
+    let perm = "prompt";
+    try{ perm = await h.queryPermission({mode:"readwrite"}); }catch(e){ return; }
+    if(perm === "granted"){
+      await useDirectory(h, true);
+    }else{
+      // 許可が切れている場合は、押すだけで再開できるようにしておく
+      $("openBtn").textContent = "編集をはじめる";
+      $("openBtn").dataset.recall = "1";
+    }
+  })();
+
   $("openBtn").addEventListener("click", async ()=>{
     if(!window.showDirectoryPicker){
       showStatus("このブラウザは対応していません。Chrome か Edge でお使いください。", true);
       return;
     }
+    // 前回のフォルダがあれば、選び直さずに許可だけ求める
+    if($("openBtn").dataset.recall === "1"){
+      const h = await recallDir();
+      if(h){
+        try{
+          if(await h.requestPermission({mode:"readwrite"}) === "granted"){
+            delete $("openBtn").dataset.recall;
+            await useDirectory(h, false);
+            return;
+          }
+        }catch(e){ /* 通常のフォルダ選択に進む */ }
+      }
+    }
+    let dir;
     try{
-      rootDir = await window.showDirectoryPicker({mode:"readwrite"});
+      dir = await window.showDirectoryPicker({mode:"readwrite", id:"ntut-site"});
     }catch(e){
       if(e && e.name !== "AbortError") console.error(e);
       return;
     }
-    // 選び間違いをその場で知らせる
+    await useDirectory(dir, false);
+  });
+
+  // フォルダを使えるようにして、一覧を表示する
+  async function useDirectory(dir, quiet){
     try{
-      await rootDir.getFileHandle("index.html");
+      await dir.getFileHandle("index.html");
     }catch(e){
-      showStatus("このフォルダはウェブサイトの場所ではないようです（index.html が見つかりません）。"
-        + "「NTUT-Co-creation.github.io」という名前のフォルダを選んでください。", true);
-      rootDir = null; return;
+      if(!quiet){
+        showStatus("このフォルダには編集できるページがありません（index.html が見つかりません）。"
+          + "この編集ツールが入っているフォルダを選んでください。", true);
+      }
+      return;
     }
+    rootDir = dir;
     try{
       imagesDir = await rootDir.getDirectoryHandle("images", {create:true});
     }catch(e){
-      showStatus("images フォルダを開けませんでした。", true); return;
+      showStatus("images フォルダを開けませんでした。", true); rootDir = null; return;
     }
-    // プレビュー用に styles.css を読んでおく
     try{
       const h = await rootDir.getFileHandle("styles.css");
       cssText = await (await h.getFile()).text();
@@ -277,16 +410,17 @@
 
     await scanPages();
     if(!pages.length){
-      showStatus("事例ページ（case-◯◯.html）が見つかりませんでした。フォルダをご確認ください。", true);
-      return;
+      showStatus("事例ページ（case-◯◯.html）が見つかりませんでした。", true);
+      rootDir = null; return;
     }
+    await rememberDir(dir);
     $("intro").classList.add("hide");
     $("layout").classList.remove("hide");
     $("newBtn").classList.remove("hide");
     renderList();
     $("fileLabel").textContent = "フォルダ： " + rootDir.name;
-    showStatus("開きました（" + pages.length + "件の事例が見つかりました）");
-  });
+    if(!quiet) showStatus("開きました（" + pages.length + "件の事例が見つかりました）");
+  }
 
   async function scanPages(){
     pages = [];
@@ -388,11 +522,13 @@
   }
   function applyGroup(g){
     for(const el of g.els) setVal(el, g.value);
-    if(g.key.indexOf("caption") === 0){        // キャプションは画像の代替テキストにも反映
+    // キャプションは、代替テキストが未設定のときだけ初期値として流用する。
+    // 代替テキストは「写真」欄で別に編集できるため、上書きしてはいけない。
+    if(g.key.indexOf("caption") === 0){
       for(const el of g.els){
         const fig = el.closest("figure");
         const img = fig && fig.querySelector("img");
-        if(img) img.setAttribute("alt", g.value);
+        if(img && !(img.getAttribute("alt") || "").trim()) img.setAttribute("alt", g.value);
       }
     }
   }

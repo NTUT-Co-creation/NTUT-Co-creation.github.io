@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>【管理者用】編集されたときに Teams で通知を受け取る設定</title>
+<style>
+  :root{
+    --ink:#2b2b2b; --soft:#5d5d5d; --line:#e3e3e8;
+    --blue:#006d96; --green:#00773a; --amber:#8a6500; --rose:#b04d6a;
+    --font:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:var(--font);color:var(--ink);background:#f4f4f6;line-height:1.85;}
+  .wrap{max-width:780px;margin:0 auto;padding:40px 24px 90px;}
+  .tag{display:inline-block;background:#7a2338;color:#fff;font-size:12px;font-weight:800;
+    padding:3px 10px;border-radius:999px;letter-spacing:.06em;margin-bottom:12px;}
+  h1{font-size:22px;margin:0 0 6px;}
+  .lead{color:var(--soft);font-size:15px;margin:0 0 24px;}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px 26px;margin-bottom:18px;}
+  h2{font-size:16px;margin:0 0 12px;color:var(--blue);}
+  p{margin:0 0 12px;font-size:14.5px;}
+  p:last-child{margin-bottom:0;}
+  ol{margin:0 0 12px;padding-left:1.4em;font-size:14.5px;}
+  ol li{margin-bottom:10px;}
+  ul{margin:6px 0 0;padding-left:1.3em;font-size:14px;color:var(--soft);}
+  code{background:#f2f2f5;padding:1px 6px;border-radius:4px;font-size:13.5px;}
+  b.ui{background:#eef3f5;color:var(--blue);padding:2px 8px;border-radius:5px;font-size:13.5px;white-space:nowrap;}
+  .note{background:#fffdf3;border:1px solid #f0e6c6;border-radius:9px;padding:12px 16px;font-size:13.5px;color:#6b5300;}
+  .ok{background:#f1f8f3;border:1px solid #cfe6d8;border-radius:9px;padding:12px 16px;font-size:13.5px;color:#0a5128;}
+  .alt{border-left:4px solid var(--amber);background:#fffdf6;padding:4px 0 4px 16px;}
+  table{width:100%;border-collapse:collapse;font-size:14px;margin:8px 0 4px;}
+  th,td{border:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top;}
+  th{background:#f6f7f9;font-size:13px;width:34%;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <span class="tag">管理者用</span>
+  <h1>先生方が編集したら Teams に知らせる</h1>
+  <p class="lead">
+    OneDrive の「産学連携サイト編集」フォルダが変更されたとき、渡辺先生の Teams にメッセージが届くようにします。
+    Microsoft 365 の Power Automate を使います。<b>追加のライセンスや外部サービスは不要</b>です。
+  </p>
+
+  <div class="card">
+    <h2>設定の手順（10分ほど）</h2>
+    <ol>
+      <li>
+        ブラウザで <code>make.powerautomate.com</code> を開き、大学のアカウントでサインインします。
+      </li>
+      <li>
+        左メニューの <b class="ui">作成</b> →  <b class="ui">自動化したクラウド フロー</b> を選びます。
+      </li>
+      <li>
+        フロー名に「サイト編集の通知」と入れ、トリガーの検索欄に <code>OneDrive</code> と入力して
+        <b class="ui">ファイルが変更されたとき (OneDrive for Business)</b> を選び、作成します。
+      </li>
+      <li>
+        フォルダーの欄で、右のフォルダアイコンから
+        <b class="ui">産学連携サイト編集</b> を選びます。
+      </li>
+      <li>
+        <b class="ui">＋ 新しいステップ</b> を押し、<code>Teams</code> で検索して
+        <b class="ui">チャットまたはチャネルでメッセージを投稿する</b> を選びます。
+      </li>
+      <li>
+        次のように設定します。
+        <table>
+          <tr><th>投稿者</th><td><b class="ui">Flow ボット</b></td></tr>
+          <tr><th>投稿先</th><td><b class="ui">ユーザーとのチャット</b></td></tr>
+          <tr><th>Recipient（受信者）</th><td>ご自身の大学アカウント（自分あてのチャットになります）</td></tr>
+          <tr><th>メッセージ</th><td>
+            【産学連携サイト】先生方がページを編集しました。<br>
+            動的なコンテンツから <b class="ui">ファイル名</b> を挿入すると、どのページが変わったか分かります。<br><br>
+            確認するには <code>tools／サイト同期.command</code> をダブルクリックして「1」を選んでください。
+          </td></tr>
+        </table>
+      </li>
+      <li><b class="ui">保存</b> を押して完了です。</li>
+    </ol>
+    <p class="ok">
+      設定後、OneDrive のフォルダ内のファイルを1つ書き換えて、Teams に「Flow ボット」からメッセージが届くか試してみてください。
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>注意点</h2>
+    <p>
+      <b>通知は少し遅れます。</b>Power Automate がフォルダを見に行く間隔があるため、
+      編集から数分〜十数分ほどかかります。緊急の連絡には向きません。
+    </p>
+    <p>
+      <b>まとめて編集すると複数回届きます。</b>先生が3ページ直せば3件来ることがあります。
+      煩わしい場合は、フローの設定で「同時実行制御」を使ってまとめて処理できます。
+    </p>
+    <p>
+      <b>共有相手の編集で反応するかは、試して確かめてください。</b>
+      このトリガーは渡辺先生の OneDrive を見張るものです。フォルダの実体は渡辺先生の OneDrive にあるため
+      他の先生の編集でも反応するはずですが、確実ではありません。
+      反応しない場合は、フォルダを Teams のチームに移して
+      <b class="ui">ファイルが作成または変更されたとき (SharePoint)</b> を使う方法に切り替えられます。
+      その際はご相談ください。
+    </p>
+  </div>
+
+  <div class="card alt">
+    <h2>Power Automate や Teams 通知が使えなかった場合</h2>
+    <p>
+      大学のライセンスによっては Power Automate が開けないことがあります。
+      その場合は、次のどちらかで代用できます。
+    </p>
+    <ol>
+      <li>
+        <b>OneDrive の共有画面から通知を有効にする</b><br>
+        OneDrive をブラウザで開き、フォルダの <b class="ui">…</b> →
+        <b class="ui">詳細</b> の中に通知の設定がある場合があります。
+      </li>
+      <li>
+        <b>Mac に見張り役を常駐させる</b><br>
+        渡辺先生の Mac で定期的にフォルダを確認し、変更があれば画面右上に通知を出す仕組みです。
+        Mac の電源が入っているときだけ動きます。ご希望があればお作りします。
+      </li>
+    </ol>
+  </div>
+
+</div>
+</body>
+</html>
